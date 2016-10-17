@@ -4,10 +4,7 @@
   pkgng: >
     name="{{item}}"
     state="present"
-  with_items:
-    - "{{ bsd_mysql_version }}-client"
-    - "{{ bsd_mysql_version }}-server"
-    - "py27-MySQLdb56"
+  with_items: "{{bsd_mysql_packages}}"
   when: freebsd_install_method == "packages"
   tags: packages
 
@@ -16,10 +13,7 @@
     name="{{item}}"
     state="present"
     use_packages="{{freebsd_use_packages}}"
-  with_items:
-    - "{{ bsd_mysql_version }}-client"
-    - "{{ bsd_mysql_version }}-server"
-    - "py27-MySQLdb56"
+  with_items: "{{bsd_mysql_packages}}"
   when: freebsd_install_method == "ports"
   tags: ports
 

@@ -6,13 +6,19 @@ freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
 #freebsd_use_packages: "yes"
 
+bsd_python_version: "27"
+bsd_mysql_version: "56"
+
 # mysql
 bsd_mysql_enable: "YES"
-bsd_mysql_version: "mysql56"
 bsd_mysql_service: "mysql-server"
 bsd_mysql_conf_path: "/usr/local/etc/mysql"
-bsd_mysql_conf_file: "/usr/local/etc/mysql/my.cnf"
+bsd_mysql_conf_file: "{{bsd_mysql_conf_path}}/my.cnf"
 bsd_mysql_bind_address: "127.0.0.1"
+bsd_mysql_packages:
+  - "mysql{{ bsd_mysql_version }}-client"
+  - "mysql{{ bsd_mysql_version }}-server"
+  - "py{{ bsd_python_version }}-MySQLdb{{ bsd_mysql_version }}"
 bsd_mysql_db: []
 bsd_mysql_user: []
 
