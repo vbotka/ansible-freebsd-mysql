@@ -1,0 +1,24 @@
+---
+
+- name: Install mysql (packages)
+  pkgng: >
+    name="{{item}}"
+    state="present"
+  with_items:
+    - "{{ bsd_mysql_version }}-client"
+    - "{{ bsd_mysql_version }}-server"
+  when: freebsd_install_method == "packages"
+  tags: packages
+
+- name: Install mysql (ports)
+  portinstall: >
+    name="{{item}}"
+    state="present"
+    use_packages="{{freebsd_use_packages}}"
+  with_items:
+    - "{{ bsd_mysql_version }}-client"
+    - "{{ bsd_mysql_version }}-server"
+  when: freebsd_install_method == "ports"
+  tags: ports
+
+# EOF

@@ -1,0 +1,14 @@
+---
+
+- name: Configure {{bsd_mysql_conf_path}}/my.cnf
+  template:
+    src: my.cnf.j2
+    dest: "{{bsd_mysql_conf_path}}/my.cnf"
+    owner: "root"
+    group: "mysql"
+    mode: "0640"
+    backup: "yes"
+  notify: restart mysql
+  tags: config_mysql_my_cnf
+
+# EOF

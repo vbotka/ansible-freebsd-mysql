@@ -1,0 +1,16 @@
+---
+# defaults ansible-freebsd-mysql
+
+# install method
+freebsd_install_method: "packages"
+#freebsd_install_method: "ports"
+#freebsd_use_packages: "yes"
+
+# mysql
+bsd_mysql_enable: "YES"
+bsd_mysql_version: "mysql56"
+bsd_mysql_service: "mysql-server"
+bsd_mysql_conf_path: "/usr/local/etc/mysql"
+bsd_mysql_bind_address: "127.0.0.1"
+
+# EOF

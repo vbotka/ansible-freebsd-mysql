@@ -1,0 +1,23 @@
+---
+
+- name: Enable and start mysql
+  lineinfile: >
+    dest="/etc/rc.conf"
+    regexp="^mysql_enable"
+    line="mysql_enable=\"YES\""
+    backup="yes"
+  notify: enable and start mysql
+  when: bsd_mysql_enable == "YES"
+  tags: config_rc_conf_mysql
+
+- name: Disable and stop mysql
+  lineinfile: >
+    dest="/etc/rc.conf"
+    regexp="^mysql_enable"
+    line="mysql_enable=\"NO\""
+    backup="yes"
+  notify: disable and stop mysql
+  when: bsd_mysql_enable == "NO"
+  tags: config_rc_conf_mysql
+
+# EOF
