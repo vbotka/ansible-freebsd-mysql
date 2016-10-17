@@ -7,6 +7,7 @@
   with_items:
     - "{{ bsd_mysql_version }}-client"
     - "{{ bsd_mysql_version }}-server"
+    - "py27-MySQLdb56"
   when: freebsd_install_method == "packages"
   tags: packages
 
@@ -18,6 +19,7 @@
   with_items:
     - "{{ bsd_mysql_version }}-client"
     - "{{ bsd_mysql_version }}-server"
+    - "py27-MySQLdb56"
   when: freebsd_install_method == "ports"
   tags: ports
 

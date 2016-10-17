@@ -16,7 +16,17 @@
 - include: config_my_cnf.yml
   tags:
     - config_my_cnf
-    - mysql-config_httpd_conf
+    - mysql-config_my_cnf
+    - mysql_all
+
+- include: create_db.yml
+  tags:
+    - mysql-create-db
+    - mysql_all
+
+- include: create_user.yml
+  tags:
+    - mysql-create-user
     - mysql_all
 
 # EOF

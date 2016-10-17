@@ -1,2 +1,6 @@
 ---
 # vars for ansible-freebsd-mysql
+#bsd_mysql_db:
+#  - roundcube
+#bsd_mysql_user:
+#  - { user: "roundcube", password: "MYSQL-password", priv: "roundcube.*:ALL" }

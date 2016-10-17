@@ -1,0 +1,11 @@
+---
+
+- name: Create MySQL users
+  mysql_user: >
+    name="{{item.user}}"
+    state="present"
+    config_file="{{bsd_mysql_conf_file}}"
+    password="{{item.password}}"
+    priv="{{item.priv}}"
+  with_items: "{{bsd_mysql_user}}"
+  tags: create_mysql_user
