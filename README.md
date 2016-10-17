@@ -3,7 +3,7 @@ freebsd-mysql
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-mysql)
 
-[Ansible role]((https://galaxy.ansible.com/vbotka/ansible-freebsd-mysql/). Install and configure MySQL at FreeBSD.
+[Ansible role](https://galaxy.ansible.com/vbotka/ansible-freebsd-mysql/). Install and configure MySQL at FreeBSD.
 
 Tested with FreeBSD 10.3 at [digitalocean.com](https://cloud.digitalocean.com)
 
