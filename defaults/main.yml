@@ -1,5 +1,5 @@
 ---
-# defaults ansible-freebsd-mysql
+# defaults freebsd-mysql
 
 # install method
 freebsd_install_method: "packages"

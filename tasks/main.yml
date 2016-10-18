@@ -1,5 +1,5 @@
 ---
-# tasks ansible-freebsd-mysql
+# tasks freebsd-mysql
 
 - include: packages.yml
   tags:
