@@ -7,3 +7,4 @@
 #  - { user: "roundcube", password: "MYSQL-password", priv: "roundcube.*:ALL" }
 
 # EOF
+...

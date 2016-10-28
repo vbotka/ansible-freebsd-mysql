@@ -1,7 +1,7 @@
 ---
 
 - name: Configure {{bsd_mysql_conf_file}}
-  template:
+  template: >
     src="my.cnf.j2"
     dest="{{bsd_mysql_conf_file}}"
     owner="root"
@@ -12,3 +12,4 @@
   tags: config_mysql_my_cnf
 
 # EOF
+...
