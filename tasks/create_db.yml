@@ -7,6 +7,7 @@
     config_file="{{bsd_mysql_conf_file}}"
   with_items: "{{bsd_mysql_db}}"
   tags: create_mysql_db
+  when: not ansible_check_mode
 
 # EOF
 ...
