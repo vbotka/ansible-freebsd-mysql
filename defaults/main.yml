@@ -1,5 +1,5 @@
 ---
-# defaults freebsd-mysql
+# defaults vbotka.freebsd-mysql
 
 # install method
 freebsd_install_method: "packages"
@@ -10,10 +10,10 @@ bsd_python_version: "27"
 bsd_mysql_version: "56"
 
 # mysql
-bsd_mysql_enable: "YES"
+bsd_mysql_enable: "NO"
 bsd_mysql_service: "mysql-server"
 bsd_mysql_conf_path: "/usr/local/etc/mysql"
-bsd_mysql_conf_file: "{{bsd_mysql_conf_path}}/my.cnf"
+bsd_mysql_conf_file: "{{ bsd_mysql_conf_path }}/my.cnf"
 bsd_mysql_bind_address: "127.0.0.1"
 bsd_mysql_packages:
   - "mysql{{ bsd_mysql_version }}-client"

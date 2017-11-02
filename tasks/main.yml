@@ -1,5 +1,5 @@
 ---
-# tasks freebsd-mysql
+# tasks vbotka.freebsd-mysql
 
 - include: packages.yml
   tags:

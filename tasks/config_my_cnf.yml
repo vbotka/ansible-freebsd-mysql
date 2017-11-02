@@ -1,9 +1,9 @@
 ---
 
-- name: Configure {{bsd_mysql_conf_file}}
+- name: Configure {{ bsd_mysql_conf_file }}
   template: >
     src="my.cnf.j2"
-    dest="{{bsd_mysql_conf_file}}"
+    dest="{{ bsd_mysql_conf_file }}"
     owner="root"
     group="mysql"
     mode="0640"

@@ -2,12 +2,14 @@
 
 - name: Create MySQL databases
   mysql_db: >
-    name="{{item}}"
+    name="{{ item }}"
     state="present"
-    config_file="{{bsd_mysql_conf_file}}"
-  with_items: "{{bsd_mysql_db}}"
+    config_file="{{ bsd_mysql_conf_file }}"
+  with_items: "{{ bsd_mysql_db }}"
+  when:
+    - not ansible_check_mode
+    - bsd_mysql_enable|lower == "yes"
   tags: create_mysql_db
-  when: not ansible_check_mode
 
 # EOF
 ...
