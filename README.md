@@ -5,7 +5,7 @@ freebsd-mysql
 
 [Ansible role](https://galaxy.ansible.com/vbotka/freebsd-mysql/). Install and configure MySQL at FreeBSD.
 
-Tested with FreeBSD 10.3 at [digitalocean.com](https://cloud.digitalocean.com)
+Tested with FreeBSD 10.3 and 11.1
 
 
 Requirements
@@ -32,13 +32,13 @@ Workflow
 2) Install role.
 
 ```
-> ansible-galaxy install vbotka.ansible-freebsd-mysql
+> ansible-galaxy install vbotka.freebsd-mysql
 ```
 
 3) Fit variables.
 
 ```
-~/.ansible/roles/vbotka.ansible-freebsd-mysql/vars/main.yml
+~/.ansible/roles/vbotka.freebsd-mysql/vars/main.yml
 ```
 
 4) Create playbook and inventory.
@@ -50,7 +50,7 @@ Workflow
   become: yes
   become_method: sudo
   roles:
-    - role: vbotka.ansible-freebsd-mysql
+    - role: vbotka.freebsd-mysql
 ```
 
 ```
