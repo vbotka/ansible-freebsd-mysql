@@ -1,15 +1,26 @@
 ---
 
-- name: Create MySQL databases
-  mysql_db: >
-    name="{{ item }}"
-    state="present"
-    config_file="{{ bsd_mysql_conf_file }}"
-  with_items: "{{ bsd_mysql_db }}"
-  when:
-    - not ansible_check_mode
-    - bsd_mysql_enable|lower == "yes"
-  tags: create_mysql_db
+- name: "create_db: Create MySQL databases."
+  mysql_db:
+    config_file: "{{ bsd_mysql_conf_file }}"
+    name: "{{ item.name }}"
+    login_user: "{{ bsd_mysql_login_user }}"
+    login_password: "{{ bsd_mysql_secret }}" 
+    login_host: "{{ item.login_host | default(omit) }}"
+    login_port: "{{ item.login_port | default(omit) }}"
+    login_unix_socket: "{{ item.login_unix_socket | default(omit) }}"
+    quick: "{{ item.quick | default(omit) }}"
+    single_transaction: "{{ item.single_transaction | default(omit) }}"
+    ssl_ca: "{{ item.ssl_ca | default(omit) }}"
+    ssl_cert: "{{ item.ssl_cert | default(omit) }}"
+    ssl_key: "{{ item.ssl_key | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+    target: "{{ item.target | default(omit) }}"
+    collation: "{{ item.collation | default(omit) }}"
+    connect_timeout: "{{ item.connect_timeout | default(omit) }}"
+    encoding: "{{ item.encoding | default(omit) }}"
+  loop: "{{ bsd_mysql_db }}"
+  when: bsd_mysql_enable
 
 # EOF
 ...

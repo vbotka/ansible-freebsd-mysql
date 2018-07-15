@@ -1,0 +1,19 @@
+---
+
+- name: "Check MySQL version and secret file"
+  block:
+    - name: "assert: End play."
+      vars:
+        msg: |
+             For MySQL version less then 5.7 file
+             {{ bsd_mysql_secret_local_file }}
+             with root password is needed. End of play.
+      debug:
+        msg: "{{ msg.split('\n') }}"
+    - meta: end_play
+  when:
+    - bsd_mysql_version is version('57', '<')
+    - bsd_mysql_secret_local_file is not exists
+
+# EOF
+...

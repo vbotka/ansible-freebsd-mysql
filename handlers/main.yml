@@ -1,31 +1,39 @@
 ---
-# handlers vbotka.freebsd-mysql
+# handlers freebsd-mysql
 
 - name: enable and start mysql
-  service: >
-    name="{{ bsd_mysql_service }}"
-    state="started"
-    enabled="yes"
+  service:
+    name: "{{ bsd_mysql_service }}"
+    state: started
+    enabled: yes
 
 - name: disable and stop mysql
-  service: >
-    name="{{ bsd_mysql_service }}"
-    state="stopped"
-    enabled="no"
+  service:
+    name: "{{ bsd_mysql_service }}"
+    state: stopped
+    enabled: no
 
 - name: start mysql
-  service: >
-    name="{{ bsd_mysql_service }}"
-    state="started"
+  service:
+    name: "{{ bsd_mysql_service }}"
+    state: started
 
 - name: stop mysql
-  service: >
-    name="{{ bsd_mysql_service }}"
-    state="stopped"
+  service:
+    name: "{{ bsd_mysql_service }}"
+    state: stopped
 
 - name: restart mysql
-  service: >
-    name="{{ bsd_mysql_service }}"
-    state="restarted"
+  service:
+    name: "{{ bsd_mysql_service }}"
+    state: restarted
+  when: bsd_mysql_enable
+
+- name: reload mysql
+  service:
+    name: "{{ bsd_mysql_service }}"
+    state: reloaded
+  when: bsd_mysql_enable
 
 # EOF
+...

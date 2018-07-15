@@ -3,9 +3,7 @@ freebsd-mysql
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-mysql)
 
-[Ansible role](https://galaxy.ansible.com/vbotka/freebsd-mysql/). Install and configure MySQL at FreeBSD.
-
-Tested with FreeBSD 10.3 and 11.1
+[Ansible role](https://galaxy.ansible.com/vbotka/freebsd-mysql/). FreeBSD. Install and configure MySQL.
 
 
 Requirements
@@ -17,7 +15,10 @@ No requiremenst.
 Variables
 ---------
 
-TBD.
+TBD. Review defaults and examples in vars.
+
+- MySQL version less then 5.7 needs file *bsd_mysql_secret_local_file* with root password.
+- By default the server is disabled *bsd_mysql_enable: False*
 
 
 Workflow
@@ -26,49 +27,47 @@ Workflow
 1) Change shell to /bin/sh.
 
 ```
-> ansible mailserver -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
+# ansible dbserver -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
 ```
 
 2) Install role.
 
 ```
-> ansible-galaxy install vbotka.freebsd-mysql
+# ansible-galaxy install vbotka.freebsd-mysql
 ```
 
 3) Fit variables.
 
 ```
-~/.ansible/roles/vbotka.freebsd-mysql/vars/main.yml
+# editor vbotka.freebsd-mysql/vars/main.yml
 ```
 
 4) Create playbook and inventory.
 
 ```
-> cat ~/.ansible/playbooks/mysql.yml
----
-- hosts: server
-  become: yes
-  become_method: sudo
+# cat mysql.yml
+
+- hosts: dbserver
   roles:
-    - role: vbotka.freebsd-mysql
+    - vbotka.freebsd-mysql
 ```
 
 ```
-> cat ~/.ansible/hosts
-[server]
-<SERVER-IP-OR-FQDN>
-
-[server:vars]
+# cat hosts
+[dbserver]
+<SERVER1-IP-OR-FQDN>
+<SERVER2-IP-OR-FQDN>
+[dbserver:vars]
 ansible_connection=ssh
 ansible_user=freebsd
-ansible_python_interpreter=/usr/local/bin/python2
+ansible_python_interpreter=/usr/local/bin/python2.7
 ansible_perl_interpreter=/usr/local/bin/perl
 ```
 
 5) Install and configure mysql.
 
 ```
-ansible-playbook ~/.ansible/playbooks/mysql.yml
+# ansible-playbook mysql.yml
 ```
 		
 

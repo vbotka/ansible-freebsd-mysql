@@ -1,17 +1,17 @@
 ---
 
-- name: Create MySQL users
-  mysql_user: >
-    name="{{ item.user }}"
-    state="present"
-    config_file="{{ bsd_mysql_conf_file }}"
-    password="{{ item.password }}"
-    priv="{{ item.priv }}"
-  with_items: "{{ bsd_mysql_user }}"
-  when:
-    - not ansible_check_mode
-    - bsd_mysql_enable|lower == "yes"
-  tags: create_mysql_users
+- name: "create_user: Create MySQL users."
+  mysql_user:
+    config_file: "{{ bsd_mysql_conf_file }}"
+    name: "{{ item.user }}"
+    login_user: "{{ bsd_mysql_login_user }}"
+    login_password: "{{ bsd_mysql_secret }}"
+    password: "{{ item.password | default(omit) }}"
+    priv: "{{ item.priv | default(omit) }}"
+    update_password: "{{ item.update_password | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+  loop: "{{ bsd_mysql_user }}"
+  when: bsd_mysql_enable
 
 # EOF
 ...

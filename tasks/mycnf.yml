@@ -1,0 +1,17 @@
+---
+
+- name: "mycnf: Configure {{ bsd_mysql_conf_file }}"
+  lineinfile:
+    dest: "{{ bsd_mysql_conf_file }}"
+    regexp: "^{{ item.regex }}"
+    line: "{{ item.regex }} = {{ item.val }}"
+    insertafter: "{{ item.after | default(omit) }}"
+    owner: "root"
+    group: "mysql"
+    mode: "0640"
+    backup: "{{ bsd_mysql_conf_backup }}"
+  loop: "{{ bsd_mysql_conf }}"
+  notify: restart mysql
+
+# EOF
+...

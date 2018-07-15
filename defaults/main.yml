@@ -1,24 +1,41 @@
 ---
-# defaults vbotka.freebsd-mysql
+# defaults freebsd-mysql
+
+bsd_mysql_enable: False
+bsd_mysql_debug: False
+bsd_mysql_conf_backup: yes
 
 # install method
 freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
 #freebsd_use_packages: "yes"
 
-bsd_python_version: "27"
-bsd_mysql_version: "56"
+#bsd_python_version: "27"
+bsd_mysql_version: "57"
+bsd_mysql_login_user: "root"
+
+# mysql_secret
+bsd_mysql_secret_file: "/root/.mysql_secret"
+bsd_mysql_secret_local_dir: "{{ playbook_dir }}/{{ ansible_hostname }}"
+bsd_mysql_secret_local_file: "{{ bsd_mysql_secret_local_dir }}/mysql_secret"
+bsd_mysql_secret_local_file_mode: "0600"
 
 # mysql
-bsd_mysql_enable: "NO"
 bsd_mysql_service: "mysql-server"
+bsd_mysql_packages:
+  - "databases/mysql{{ bsd_mysql_version }}-client"
+  - "databases/mysql{{ bsd_mysql_version }}-server"
+  - "databases/py-MySQLdb"
+
+# my.cnf
 bsd_mysql_conf_path: "/usr/local/etc/mysql"
 bsd_mysql_conf_file: "{{ bsd_mysql_conf_path }}/my.cnf"
 bsd_mysql_bind_address: "127.0.0.1"
-bsd_mysql_packages:
-  - "mysql{{ bsd_mysql_version }}-client"
-  - "mysql{{ bsd_mysql_version }}-server"
-  - "py{{ bsd_python_version }}-MySQLdb{{ bsd_mysql_version }}"
+bsd_mysql_port: "3306"
+bsd_mysql_conf:
+  - { regex: "bind-address", val: "{{ bsd_mysql_bind_address }}", after: "[mysqld]" }
+  - { regex: "port", val: "{{ bsd_mysql_port }}", after: "[mysqld]" }
+
 bsd_mysql_db: []
 bsd_mysql_user: []
 
