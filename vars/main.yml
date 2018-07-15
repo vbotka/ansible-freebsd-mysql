@@ -1,10 +1,17 @@
 ---
 # vars freebsd-mysql
 
+#bsd_mysql_enable: True
+#bsd_mysql_debug: True
+
+#bsd_mysql_secret_local_dir: "{{ playbook_dir }}/copy/{{ ansible_hostname }}/root"
+#bsd_mysql_secret_local_file: "{{ bsd_mysql_secret_local_dir }}/.mysql_secret"
+
 #bsd_mysql_db:
-#  - roundcube
+#  - { name: "roundcube" }
+
 #bsd_mysql_user:
-#  - { user: "roundcube", password: "MYSQL-password", priv: "roundcube.*:ALL" }
+#  - { user: "roundcube", password: "{{ roundcube_mysql_password }}", priv: "roundcube.*:ALL" }
 
 # EOF
 ...
