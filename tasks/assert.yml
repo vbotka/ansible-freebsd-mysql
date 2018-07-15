@@ -1,12 +1,19 @@
 ---
 
-- name: "Check MySQL version and secret file"
+- name: "assert: Check if {{ bsd_mysql_secret_file }} exists."
+  stat:
+    path: "{{ bsd_mysql_secret_file }}"
+  register: stat_result
+
+- name: "assert: Check MySQL version and secret file."
   block:
     - name: "assert: End play."
       vars:
         msg: |
-             For MySQL version less then 5.7 file
+             For MySQL version less then 5.7 local file
              {{ bsd_mysql_secret_local_file }}
+             or remote file
+             {{ bsd_mysql_secret_file }}
              with root password is needed. End of play.
       debug:
         msg: "{{ msg.split('\n') }}"
@@ -14,6 +21,7 @@
   when:
     - bsd_mysql_version is version('57', '<')
     - bsd_mysql_secret_local_file is not exists
+    - not stat_result.stat.exists
 
 # EOF
 ...
