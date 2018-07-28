@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: freebsd_mysql
   author: Vladimir Botka
   description: FreeBSD. Install and configure MySQL.
   company: https://botka.link
