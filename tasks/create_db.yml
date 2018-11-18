@@ -5,7 +5,7 @@
     config_file: "{{ bsd_mysql_conf_file }}"
     name: "{{ item.name }}"
     login_user: "{{ bsd_mysql_login_user }}"
-    login_password: "{{ bsd_mysql_secret }}" 
+    login_password: "{{ bsd_mysql_secret }}"
     login_host: "{{ item.login_host | default(omit) }}"
     login_port: "{{ item.login_port | default(omit) }}"
     login_unix_socket: "{{ item.login_unix_socket | default(omit) }}"
