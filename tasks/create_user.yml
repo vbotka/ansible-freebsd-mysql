@@ -11,7 +11,9 @@
     update_password: "{{ item.update_password | default(omit) }}"
     state: "{{ item.state | default(omit) }}"
   loop: "{{ bsd_mysql_user }}"
-  when: bsd_mysql_enable
+  when:
+    - bsd_mysql_enable
+    - not ansible_check_mode
 
 # EOF
 ...

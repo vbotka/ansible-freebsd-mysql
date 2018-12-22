@@ -16,6 +16,7 @@
          bsd_mysql_secret_file [ {{ bsd_mysql_secret_file }} ]
          bsd_mysql_secret_local_file [ {{ bsd_mysql_secret_local_file }} ]
          bsd_mysql_secret_local_file_mode [ {{ bsd_mysql_secret_local_file_mode }} ]
+         bsd_mysql_secret [ {{ bsd_mysql_secret | default('ABSENT') }} ]
          bsd_mysql_conf_path [ {{ bsd_mysql_conf_path }} ]
          bsd_mysql_conf_file [ {{ bsd_mysql_conf_file }} ]
          bsd_mysql_bind_address [ {{ bsd_mysql_bind_address }} ]
