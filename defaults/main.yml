@@ -27,7 +27,8 @@ bsd_mysql_service: "mysql-server"
 bsd_mysql_packages:
   - "databases/mysql{{ bsd_mysql_version }}-client"
   - "databases/mysql{{ bsd_mysql_version }}-server"
-  - "databases/py-MySQLdb"
+#  - "databases/py-MySQLdb"
+#  - "databases/py-mysqlclient"
 
 # my.cnf
 bsd_mysql_conf_path: "/usr/local/etc/mysql"
