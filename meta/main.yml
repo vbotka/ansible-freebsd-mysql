@@ -1,3 +1,4 @@
+---
 galaxy_info:
   role_name: freebsd_mysql
   author: Vladimir Botka
@@ -10,7 +11,9 @@ galaxy_info:
     - name: FreeBSD
       versions:
         - 11.2
+        - 12.0
   galaxy_tags:
     - freebsd
     - mysql
 dependencies: []
+...
