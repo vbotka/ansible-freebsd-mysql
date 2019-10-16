@@ -5,8 +5,8 @@
   when: bsd_mysql_debug|bool
   tags: [bsd_mysql_debug, always]
 
-#- import_tasks: assert.yml
-#  tags: [ bsd_mysql_assert, always ]
+# - import_tasks: assert.yml
+#   tags: [ bsd_mysql_assert, always ]
 
 - import_tasks: packages.yml
   tags: bsd_mysql_packages

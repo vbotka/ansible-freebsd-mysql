@@ -8,12 +8,12 @@ bsd_mysql_conf_backup: true
 
 # install method
 freebsd_install_method: "packages"
-#freebsd_install_method: "ports"
+# freebsd_install_method: "ports"
 freebsd_use_packages: "yes"
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 
-#bsd_python_version: "27"
+# bsd_python_version: "27"
 bsd_mysql_version: "57"
 bsd_mysql_login_user: "root"
 
