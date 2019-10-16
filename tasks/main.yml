@@ -2,8 +2,8 @@
 # tasks freebsd-mysql
 
 - import_tasks: debug.yml
-  when: bsd_mysql_debug
-  tags: [ bsd_mysql_debug, always ]
+  when: bsd_mysql_debug|bool
+  tags: [bsd_mysql_debug, always]
 
 #- import_tasks: assert.yml
 #  tags: [ bsd_mysql_assert, always ]
@@ -22,20 +22,20 @@
   tags: bsd_mysql_secret
 
 # Workaround
-# Even when secret.yml is skipped bsd_mysql_secret is set to [
-# 'skip_reason: u'Conditional result was False', skipped:
-# True, changed: False ]
+# Even when secret.yml is skipped bsd_mysql_secret is set
+# ['skip_reason: u'Conditional result was False', skipped:
+#  True, changed: False ]
 - name: "main: Set empty bsd_mysql_secret"
   set_fact:
     bsd_mysql_secret: ""
   when: bsd_mysql_version is version('57', '<')
 
 - import_tasks: create_db.yml
-  when: bsd_mysql_enable
+  when: bsd_mysql_enable|bool
   tags: bsd_mysql_create_db
 
 - import_tasks: create_user.yml
-  when: bsd_mysql_enable
+  when: bsd_mysql_enable|bool
   tags: bsd_mysql_create_user
 
 # EOF

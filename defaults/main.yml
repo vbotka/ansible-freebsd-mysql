@@ -1,14 +1,15 @@
 ---
 # defaults freebsd-mysql
 
-bsd_mysql_enable: False
-bsd_mysql_debug: False
-bsd_mysql_conf_backup: yes
+bsd_mysql_enable: false
+bsd_mysql_debug: false
+bsd_mysql_debug_classified: false
+bsd_mysql_conf_backup: true
 
 # install method
 freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
-#freebsd_use_packages: "yes"
+freebsd_use_packages: "yes"
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 
@@ -27,8 +28,8 @@ bsd_mysql_service: "mysql-server"
 bsd_mysql_packages:
   - "databases/mysql{{ bsd_mysql_version }}-client"
   - "databases/mysql{{ bsd_mysql_version }}-server"
-#  - "databases/py-MySQLdb"
-#  - "databases/py-mysqlclient"
+  - "databases/py-MySQLdb"
+  - "databases/py-mysqlclient"
 
 # my.cnf
 bsd_mysql_conf_path: "/usr/local/etc/mysql"
@@ -36,8 +37,8 @@ bsd_mysql_conf_file: "{{ bsd_mysql_conf_path }}/my.cnf"
 bsd_mysql_bind_address: "127.0.0.1"
 bsd_mysql_port: "3306"
 bsd_mysql_conf:
-  - { regex: "bind-address", val: "{{ bsd_mysql_bind_address }}", after: "[mysqld]" }
-  - { regex: "port", val: "{{ bsd_mysql_port }}", after: "[mysqld]" }
+  - {regex: "bind-address", val: "{{ bsd_mysql_bind_address }}", after: "[mysqld]"}
+  - {regex: "port", val: "{{ bsd_mysql_port }}", after: "[mysqld]"}
 
 bsd_mysql_db: []
 bsd_mysql_user: []

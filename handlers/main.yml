@@ -5,13 +5,13 @@
   service:
     name: "{{ bsd_mysql_service }}"
     state: started
-    enabled: yes
+    enabled: true
 
 - name: disable and stop mysql
   service:
     name: "{{ bsd_mysql_service }}"
     state: stopped
-    enabled: no
+    enabled: false
 
 - name: start mysql
   service:
@@ -27,13 +27,13 @@
   service:
     name: "{{ bsd_mysql_service }}"
     state: restarted
-  when: bsd_mysql_enable
+  when: bsd_mysql_enable|bool
 
 - name: reload mysql
   service:
     name: "{{ bsd_mysql_service }}"
     state: reloaded
-  when: bsd_mysql_enable
+  when: bsd_mysql_enable|bool
 
 # EOF
 ...
