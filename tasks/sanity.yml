@@ -1,0 +1,153 @@
+---
+
+# Collect data. Suported platform and supported Ansible version.
+- name: "sanity: Get meta-data and role_name."
+  block:
+    - name: "sanity: Get meta-data."
+      include_vars:
+        file: meta/main.yml
+      when: galaxy_info is undefined
+    - name: "sanity: Get role_name."
+      set_fact:
+        al_sanity_role_name: "{{ role_name }}"
+  when: bsd_mysql_sanity_platform|bool or
+        bsd_mysql_sanity_ansible_version|bool
+
+# Test suported platform.
+- name: "sanity: Include vbotka.ansible_lib al_sanity_platform."
+  include_role:
+    name: vbotka.ansible_lib
+    tasks_from: al_sanity_platform
+  when: bsd_mysql_sanity_platform|bool
+
+# Test supported Ansible version.
+- name: "sanity: Include vbotka.ansible_lib al_sanity_ansible_version."
+  include_role:
+    name: vbotka.ansible_lib
+    tasks_from: al_sanity_ansible_version
+  when: bsd_mysql_sanity_ansible_version|bool
+
+# Collect data. mysql-server password datadir.
+- name: "sanity: Test mysql-server password datadir. Collect data."
+  block:
+    - name: "sanity: Get installed packages."
+      package_facts:
+    - name: "sanity: Set variable my_mysql_server_installed"
+      set_fact:
+        my_mysql_server_installed: "{{ my_mysql_server in ansible_facts.packages.keys()|list }}"
+      vars:
+        my_mysql_server: "mysql{{ bsd_mysql_version }}-server"
+    - name: "sanity: Stat {{ bsd_mysql_secret_file }}"
+      stat:
+        path: "{{ bsd_mysql_secret_file }}"
+      register: my_remote_secret_file
+    - name: "sanity: Stat {{ bsd_mysql_datadir }}"
+      stat:
+        path: "{{ bsd_mysql_datadir }}"
+      register: my_remote_datadir
+    - name: "sanity: Debug. Test root password datadir. Print collected data."
+      when: bsd_mysql_debug|bool
+      debug:
+        msg:
+          - "mysql{{ bsd_mysql_version }}-server installed [{{ my_mysql_server_installed }}]"
+          - "Remote file {{ bsd_mysql_secret_file }} exists [{{ my_remote_secret_file.stat.exists }}]"
+          - "Remote dir {{ bsd_mysql_datadir }} exists [{{ my_remote_datadir.stat.exists }}]"
+  when: bsd_mysql_sanity_password|bool or
+        bsd_mysql_sanity_datadir|bool
+
+# Test mysql-server is installed and root temporary password is missing.
+- name: "sanity: Fail. ERROR server installed and temporary root password is missing."
+  fail:
+    msg: "[ERROR] {{ my_mysql_server }} is installed and
+          neither local file {{ bsd_mysql_secret_local_file }}
+          nor remote file {{ bsd_mysql_secret_file }} exists.
+          Create the file with the temporary root password manually.
+          See HOWTO in assert.yml. Play failed."
+  vars:
+    my_mysql_server: "mysql{{ bsd_mysql_version }}-server"
+  when:
+    - bsd_mysql_sanity_temp_password|bool
+    - my_mysql_server_installed|default(true)
+    - not (my_remote_secret_file.stat.exists|default(false) or
+      bsd_mysql_secret_local_file is exists)
+
+# Test mysql-server is not installed and temporary root password exists.
+- name: "sanity: Fail. ERROR server not installed and temporary root password exists."
+  fail:
+    msg: "[ERROR] {{ my_mysql_server }} is not installed and
+          either local file {{ bsd_mysql_secret_local_file }}
+          or remote file {{ bsd_mysql_secret_file }} exists.
+          Remove the file(s) manually. Play failed."
+  vars:
+    my_mysql_server: "mysql{{ bsd_mysql_version }}-server"
+  when:
+    - bsd_mysql_sanity_temp_password|bool
+    - not my_mysql_server_installed|default(false)
+    - (my_remote_secret_file.stat.exists|default(true) or
+      bsd_mysql_secret_local_file is exists)
+
+# Passed. root temporary password.
+- name: "sanity: Test root temporary password. Passed."
+  debug:
+    msg: "[OK] Test root temporary password passed."
+  when:
+    - bsd_mysql_debug|bool
+    - bsd_mysql_sanity_temp_password|bool
+
+# Test mysql-server is not installed and datadir exists.
+- name: "sanity: Fail. ERROR server not installed and datadir exists."
+  fail:
+    msg: "[ERROR] {{ my_mysql_server }} is not installed and
+          datadir {{ bsd_mysql_datadir }} exists. Make sure this is an upgrade
+          or install. If the datadir is not needed create a backup
+          and remove the datadir manually. Play failed."
+  vars:
+    my_mysql_server: "mysql{{ bsd_mysql_version }}-server"
+  when:
+    - bsd_mysql_sanity_datadir|bool
+    - not my_mysql_server_installed|default(false)
+    - bsd_mysql_datadir is exists
+
+# Passed. mysql-server datadir.
+- name: "sanity: Test datadir. Passed."
+  debug:
+    msg: "[OK] Test datadir passed."
+  when:
+    - bsd_mysql_debug|bool
+    - bsd_mysql_sanity_datadir|bool
+
+# Test root password exists.
+- name: "sanity: Fail. ERROR {{ bsd_mysql_login_user }} password is undefined."
+  fail:
+    msg: "[ERROR] {{ bsd_mysql_login_user }} password 'bsd_mysql_secret' is undefined."
+  when:
+    - bsd_mysql_sanity_password|bool
+    - bsd_mysql_secret is undefined
+
+# Passed. root password exists.
+- name: "sanity: Test {{ bsd_mysql_login_user }} password. Passed."
+  debug:
+    msg: "[OK] Test {{ bsd_mysql_login_user }} password. Passed."
+  when:
+    - bsd_mysql_debug|bool
+    - bsd_mysql_sanity_password|bool
+
+# Test Python version.
+- name: "sanity: Fail. ERROR Python >= {{ bsd_mysql_sanity_python_version }} is needed."
+  fail:
+    msg: "[ERROR] Python >= {{ bsd_mysql_sanity_python_version }} is needed but
+          Python {{ ansible_python_version }} is used. Play failed."
+  when:
+    - bsd_mysql_sanity_python|bool
+    - ansible_python_version is version(bsd_mysql_sanity_python_version, '<')
+
+# Passed. Python version.
+- name: "sanity: Test Python version {{ ansible_python_version }} Passed."
+  debug:
+    msg: "[OK] Test Python version {{ ansible_python_version }} Passed."
+  when:
+    - bsd_mysql_debug|bool
+    - bsd_mysql_sanity_python|bool
+
+# EOF
+...

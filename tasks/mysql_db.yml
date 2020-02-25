@@ -1,5 +1,9 @@
 ---
 
+# TODO
+# Complete module parameters
+# https://docs.ansible.com/ansible/latest/modules/mysql_db_module.html
+
 - name: "create_db: Debug."
   vars:
     msg: |
@@ -36,9 +40,7 @@
     encoding: "{{ item.encoding|default(omit) }}"
   loop: "{{ bsd_mysql_db }}"
   no_log: "{{ not bsd_mysql_debug_classified|bool }}"
-  when:
-    - bsd_mysql_enable|bool
-    - not ansible_check_mode
+  when: bsd_mysql_enable|bool
 
 # EOF
 ...

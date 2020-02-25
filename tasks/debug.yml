@@ -9,27 +9,63 @@
          ansible_distribution_major_version [{{ ansible_distribution_major_version }}]
          ansible_distribution_version [{{ ansible_distribution_version }}]
          ansible_distribution_release [{{ ansible_distribution_release }}]
+         ansible_python_version [{{ ansible_python_version }}]
 
          bsd_mysql_enable [{{ bsd_mysql_enable }}]
          bsd_mysql_version [{{ bsd_mysql_version }}]
          bsd_mysql_service [{{ bsd_mysql_service }}]
+         bsd_mysql_port_wait_timeout [{{ bsd_mysql_port_wait_timeout }}]
+         bsd_mysql_login_user [{{ bsd_mysql_login_user }}]
+
+         al_debug [{{ al_debug }}]
+         bsd_mysql_sanity [{{ bsd_mysql_sanity }}]
+         bsd_mysql_sanity_platform [{{ bsd_mysql_sanity_platform }}]
+         bsd_mysql_sanity_ansible_version [{{ bsd_mysql_sanity_ansible_version }}]
+         bsd_mysql_sanity_temp_password [{{ bsd_mysql_sanity_temp_password }}]
+         bsd_mysql_sanity_datadir [{{ bsd_mysql_sanity_datadir }}]
+         bsd_mysql_sanity_password [{{ bsd_mysql_sanity_password }}]
+         bsd_mysql_info [{{ bsd_mysql_info }}]
+         bsd_mysql_info_filter [{{ bsd_mysql_info_filter }}]
+
          bsd_mysql_secret_file [{{ bsd_mysql_secret_file }}]
+         bsd_mysql_secret_file_remove [{{ bsd_mysql_secret_file_remove }}]
          bsd_mysql_secret_local_file [{{ bsd_mysql_secret_local_file }}]
+         bsd_mysql_secret_local_file_owner [{{ bsd_mysql_secret_local_file_owner }}]
          bsd_mysql_secret_local_file_mode [{{ bsd_mysql_secret_local_file_mode }}]
+
          bsd_mysql_conf_path [{{ bsd_mysql_conf_path }}]
          bsd_mysql_conf_file [{{ bsd_mysql_conf_file }}]
-         bsd_mysql_bind_address [{{ bsd_mysql_bind_address }}]
-         bsd_mysql_port [{{ bsd_mysql_port }}]
-         bsd_mysql_login_user [{{ bsd_mysql_login_user }}]
          bsd_mysql_conf_backup [{{ bsd_mysql_conf_backup }}]
+         bsd_mysql_mysq_user [{{ bsd_mysql_mysql_user }}]
+         bsd_mysql_port [{{ bsd_mysql_port }}]
+         bsd_mysql_bind_address [{{ bsd_mysql_bind_address }}]
+         bsd_mysql_datadir [{{ bsd_mysql_datadir }}]
+         bsd_mysql_tmpdir [{{ bsd_mysql_tmpdir }}]
+         bsd_mysql_slave_load_tmpdir [{{ bsd_mysql_slave_load_tmpdir }}]
+         bsd_mysql_secure_file_priv [{{ bsd_mysql_secure_file_priv }}]
+
+         bsd_mysql_rcconf
+         {{ bsd_mysql_rcconf|to_yaml }}
          bsd_mysql_conf
          {{ bsd_mysql_conf|to_yaml }}
          bsd_mysql_db
          {{ bsd_mysql_db|to_nice_yaml }}
+
          freebsd_install_method [{{ freebsd_install_method }}]
-         freebsd_use_packages [{{ freebsd_use_packages|default('absent') }}]
-         bsd_mysql_packages
-         {{ bsd_mysql_packages|to_nice_yaml }}
+         freebsd_use_packages [{{ freebsd_use_packages|default('UNDEFINED') }}]
+         freebsd_install_retries [{{ freebsd_install_retries }}]
+         freebsd_install_delay [{{ freebsd_install_delay }}]
+
+         bsd_mysql_packages [{{ bsd_mysql_packages }}]
+         bsd_mysql_packages_list
+         {{ bsd_mysql_packages_list|to_nice_yaml }}
+
+         bsd_mysql_patches [{{ bsd_mysql_patches }}]
+         bsd_mysql_patches_list
+         {{ bsd_mysql_patches_list|to_nice_yaml }}
+
+         bsd_mysql_directories
+         {{ bsd_mysql_directories|to_nice_yaml }}
 
          {% if bsd_mysql_debug_classified|bool %}
          bsd_mysql_secret [{{ bsd_mysql_secret|default('UNDEFINED') }}]

@@ -1,0 +1,11 @@
+--- /usr/local/etc/rc.d/mysql-server.orig	2020-02-24 23:25:22.738821000 +0100
++++ /usr/local/etc/rc.d/mysql-server	2020-02-24 23:44:16.957347000 +0100
+@@ -57,7 +57,7 @@
+ 
+ mysql_create_auth_tables()
+ {
+-	eval $mysqld_init $mysqld_init_args >/dev/null 2>/dev/null
++	eval $mysqld_init $mysqld_init_args
+ }
+ 
+ mysql_prestart()

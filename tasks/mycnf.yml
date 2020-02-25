@@ -8,8 +8,8 @@
 - name: "mycnf: Configure {{ bsd_mysql_conf_file }}"
   lineinfile:
     dest: "{{ bsd_mysql_conf_file }}"
-    regexp: "^{{ item.regex }}"
-    line: "{{ item.regex }} = {{ item.val }}"
+    regexp: "^{{ item.key }}"
+    line: "{{ item.key }} = {{ item.val }}"
     insertafter: "{{ item.after|default(omit) }}"
     owner: "root"
     group: "mysql"

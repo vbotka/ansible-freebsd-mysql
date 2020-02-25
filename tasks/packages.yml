@@ -3,7 +3,7 @@
 - name: "packages: Install MySQL packages."
   pkgng:
     name: "{{ item }}"
-  loop: "{{ bsd_mysql_packages }}"
+  loop: "{{ bsd_mysql_packages_list }}"
   register: result
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"
@@ -14,7 +14,7 @@
   portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
-  loop: "{{ bsd_mysql_packages }}"
+  loop: "{{ bsd_mysql_packages_list }}"
   register: result
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"

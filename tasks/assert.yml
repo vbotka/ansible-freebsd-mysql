@@ -1,27 +1,89 @@
 ---
 
-- name: "assert: Check if {{ bsd_mysql_secret_file }} exists."
+# Test root password exists
+
+- name: "assert: Stat {{ bsd_mysql_secret_file }}"
   stat:
     path: "{{ bsd_mysql_secret_file }}"
-  register: stat_result
+  register: my_remote_secret_file
 
-- name: "assert: Check MySQL version and secret file."
+- name: "assert: Debug"
+  when: bsd_mysql_debug|bool
+  debug:
+    msg:
+      - "local {{ bsd_mysql_secret_local_file }} exists [{{ bsd_mysql_secret_local_file is exists }}]"
+      - "remote {{ bsd_mysql_secret_file }} exists [{{ my_remote_secret_file.stat.exists }}]"
+
+- name: "assert: Fail. Version < 8.0"
   block:
-    - name: "assert: End play."
-      vars:
-        msg: |
-             For MySQL version less then 5.7 local file
-             {{ bsd_mysql_secret_local_file }}
-             or remote file
-             {{ bsd_mysql_secret_file }}
-             with root password is needed. End of play.
+    - name: "assert: HOWTO root password does not exist"
       debug:
         msg: "{{ msg.split('\n') }}"
-    - meta: end_play
+      vars:
+        msg: |
+          Neither local file {{ bsd_mysql_secret_local_file }}
+          nor remote file {{ bsd_mysql_secret_file }} exists.
+          Create a file with the root password manually
+
+          shell> service mysql-server stop
+          shell> sysrc mysql_args='--skip-grant-tables'
+          shell> service mysql-server start
+          shell> mysql -u root
+          > ALTER USER 'root'@'localhost' IDENTIFIED BY 'newpassword';
+          > exit
+          shell> service mysql-server stop
+
+          Store root password in remote file {{ bsd_mysql_secret_file }}.
+          Remove mysql_args, start service and test existence of the file
+          with the new password
+
+          shell> sysrc -x mysql_args
+          shell> service mysql-server start
+          shell> ansible-playbook playbook.yml -t bsd_mysql_assert
+
+    - name: "assert: Fail. ERROR root password does not exist."
+      fail:
+        msg: "[ERROR] root password does not exist."
   when:
-    - bsd_mysql_version is version('57', '<')
+    - bsd_mysql_version is version('80', '<')
     - bsd_mysql_secret_local_file is not exists
-    - not stat_result.stat.exists
+    - not my_remote_secret_file.stat.exists
+
+- name: "assert: Fail. Version >= 8.0"
+  block:
+    - name: "assert: HOWTO root password does not exist"
+      debug:
+        msg: "{{ msg.split('\n') }}"
+      vars:
+        msg: |
+          Neither local file {{ bsd_mysql_secret_local_file }}
+          nor remote file {{ bsd_mysql_secret_file }} exists.
+          Create a file with the root password manually
+
+          *************************************************************
+          * !!! WARNING: Make sure /var/db/mysql/* can be deleted !!! *
+          *************************************************************
+
+          shell> service mysql-server stop
+          shell> rm -r /var/db/mysql/*
+          shell> sysrc mysql_args='--initialize'
+          shell> service mysql-server start
+
+          Find the root password in the log and store it in remote file
+          {{ bsd_mysql_secret_file }}. Remove mysql_args, start service
+          and test existence of the file with the new password
+
+          shell> sysrc -x mysql_args
+          shell> service mysql-server start
+          shell> ansible-playbook playbook.yml -t bsd_mysql_assert
+
+    - name: "assert: Fail. ERROR root password does not exist."
+      fail:
+        msg: "[ERROR] root password does not exist."
+  when:
+    - bsd_mysql_version is version('80', '>=')
+    - bsd_mysql_secret_local_file is not exists
+    - not my_remote_secret_file.stat.exists
 
 # EOF
 ...

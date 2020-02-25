@@ -1,5 +1,5 @@
 ---
-# handlers freebsd-mysql
+# handlers freebsd_mysql
 
 - name: enable and start mysql
   service:

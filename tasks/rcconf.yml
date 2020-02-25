@@ -3,8 +3,8 @@
 - name: "rcconf: Enable and start MySQL."
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^mysql_enable"
-    line: "mysql_enable=\"YES\""
+    regexp: '^\s*mysql_enable\s*='
+    line: 'mysql_enable="YES"'
     backup: "{{ bsd_mysql_conf_backup }}"
   notify: enable and start mysql
   when: bsd_mysql_enable|bool
@@ -12,17 +12,34 @@
 - name: "rcconf: Disable and stop MySQL."
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^mysql_enable"
-    line: "mysql_enable=\"NO\""
+    regexp: '^\s*mysql_enable\s*='
+    line: 'mysql_enable="NO"'
     backup: "{{ bsd_mysql_conf_backup }}"
   notify: disable and stop mysql
   when: not bsd_mysql_enable|bool
 
+- name: "rcconf: Configure MySQL."
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: '^\s*{{ item.key }}\s*='
+    line: '{{ item.key }}="{{ item.val }}"'
+    backup: "{{ bsd_mysql_conf_backup }}"
+  loop: "{{ bsd_mysql_rcconf }}"
+  notify: restart mysql
+
 - meta: flush_handlers
 
-- name: "rcconf: Wait for MySQL service at port {{ bsd_mysql_port }}."
-  wait_for:
-    port: "{{ bsd_mysql_port }}"
+- name: "rcconf: Make sure service {{ bsd_mysql_service }} is started when enabled."
+  block:
+    - name: "rcconf: Start and enable MySQL service."
+      service:
+        name: "{{ bsd_mysql_service }}"
+        state: started
+        enabled: true
+    - name: "rcconf: Wait for MySQL service at port {{ bsd_mysql_port }}."
+      wait_for:
+        port: "{{ bsd_mysql_port }}"
+        timeout: "{{ bsd_mysql_port_wait_timeout }}"
   when: bsd_mysql_enable|bool
 
 # EOF

@@ -1,0 +1,11 @@
+--- /usr/local/etc/rc.d/mysql-server.orig	2020-02-24 23:25:22.738821000 +0100
++++ /usr/local/etc/rc.d/mysql-server	2020-02-24 23:27:12.013146000 +0100
+@@ -53,7 +53,7 @@
+ start_precmd="${name}_prestart"
+ start_postcmd="${name}_poststart"
+ mysqld_init="${procname}"
+-mysqld_init_args="${mysql_extra} --initialize-insecure --basedir=/usr/local --datadir=${mysql_dbdir} --user=${mysql_user}"
++mysqld_init_args="${mysql_extra} --initialize --basedir=/usr/local --datadir=${mysql_dbdir} --user=${mysql_user}"
+ 
+ mysql_create_auth_tables()
+ {

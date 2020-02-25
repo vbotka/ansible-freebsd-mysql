@@ -1,5 +1,9 @@
 ---
 
+# TODO
+# Complete module parameters
+# https://docs.ansible.com/ansible/latest/modules/mysql_user_module.html
+
 - name: "create_user: Create MySQL users."
   mysql_user:
     config_file: "{{ bsd_mysql_conf_file }}"
@@ -12,9 +16,7 @@
     state: "{{ item.state|default(omit) }}"
   loop: "{{ bsd_mysql_user }}"
   no_log: "{{ not bsd_mysql_debug_classified|bool }}"
-  when:
-    - bsd_mysql_enable|bool
-    - not ansible_check_mode
+  when: bsd_mysql_enable|bool
 
 # EOF
 ...

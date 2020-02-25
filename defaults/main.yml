@@ -1,47 +1,126 @@
 ---
-# defaults freebsd-mysql
+# defaults freebsd_mysql
 
 bsd_mysql_enable: false
 bsd_mysql_debug: false
 bsd_mysql_debug_classified: false
 bsd_mysql_conf_backup: true
 
+# sanity
+al_debug: true
+bsd_mysql_sanity: true
+bsd_mysql_sanity_platform: true
+bsd_mysql_sanity_ansible_version: true
+bsd_mysql_sanity_temp_password: true
+bsd_mysql_sanity_datadir: true
+bsd_mysql_sanity_password: true
+bsd_mysql_sanity_python: true
+bsd_mysql_sanity_python_version: "3.7"
+
 # install method
 freebsd_install_method: "packages"
 # freebsd_install_method: "ports"
-freebsd_use_packages: "yes"
+freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 
-# bsd_python_version: "27"
-bsd_mysql_version: "57"
-bsd_mysql_login_user: "root"
+# mysql_info
+bsd_mysql_info: true
+bsd_mysql_info_filter: "version, databases, settings, users, slave_status, slave_hosts, master_status, engines"
 
-# mysql_secret
+# service
+bsd_mysql_service: "mysql-server"
+
+# temporary password for root created by 'mysqld --initialize'
+bsd_mysql_secret_file_remove: true
+bsd_mysql_login_user: "root"
 bsd_mysql_secret_file: "/root/.mysql_secret"
 bsd_mysql_secret_local_dir: "{{ playbook_dir }}/{{ ansible_hostname }}"
 bsd_mysql_secret_local_file: "{{ bsd_mysql_secret_local_dir }}/mysql_secret"
+bsd_mysql_secret_local_file_owner: "{{ ansible_user }}"
 bsd_mysql_secret_local_file_mode: "0600"
 
+# password for bsd_mysql_login_user (by default root)
+# Use vault or similat tool to store the password. Never use plaintext.
+# bsd_mysql_secret: "MY-SECRET-PASSWORD"
+
 # mysql
-bsd_mysql_service: "mysql-server"
-bsd_mysql_packages:
+bsd_mysql_version: "80"
+bsd_mysql_packages: true
+bsd_mysql_packages_list:
+  - "lang/python37"
   - "databases/mysql{{ bsd_mysql_version }}-client"
   - "databases/mysql{{ bsd_mysql_version }}-server"
-  - "databases/py-MySQLdb"
-  - "databases/py-mysqlclient"
+  - "databases/py-pymysql"
+  - "databases/py-mysql-connector-python"
+  - "security/py-cryptography"
+# - "databases/py-mysqlclient"
+# - "databases/py-MySQLdb"
 
 # my.cnf
 bsd_mysql_conf_path: "/usr/local/etc/mysql"
 bsd_mysql_conf_file: "{{ bsd_mysql_conf_path }}/my.cnf"
-bsd_mysql_bind_address: "127.0.0.1"
+bsd_mysql_mysql_user: "mysql"
 bsd_mysql_port: "3306"
+bsd_mysql_bind_address: "127.0.0.1"
+bsd_mysql_datadir: "/var/db/mysql"
+bsd_mysql_tmpdir: "/var/db/mysql_tmpdir"
+bsd_mysql_slave_load_tmpdir: "/var/db/mysql_tmpdir"
+bsd_mysql_secure_file_priv: "/var/db/mysql_secure"
+bsd_mysql_default_authentication_plugin: "mysql_native_password"
 bsd_mysql_conf:
-  - {regex: "bind-address", val: "{{ bsd_mysql_bind_address }}", after: "[mysqld]"}
-  - {regex: "port", val: "{{ bsd_mysql_port }}", after: "[mysqld]"}
+  - {key: "user", val: "{{ bsd_mysql_mysql_user }}", after: "[mysqld]"}
+  - {key: "port", val: "{{ bsd_mysql_port }}", after: "[mysqld]"}
+  - {key: "bind-address", val: "{{ bsd_mysql_bind_address }}", after: "[mysqld]"}
+  - {key: "datadir", val: "{{ bsd_mysql_datadir }}", after: "[mysqld]"}
+  - {key: "tmpdir", val: "{{ bsd_mysql_tmpdir }}", after: "[mysqld]"}
+  - {key: "slave-load-tmpdir", val: "{{ bsd_mysql_slave_load_tmpdir }}", after: "[mysqld]"}
+  - {key: "secure-file-priv", val: "{{ bsd_mysql_secure_file_priv }}", after: "[mysqld]"}
+  - {key: "default-authentication-plugin", val: "{{ bsd_mysql_default_authentication_plugin }}", after: "[mysqld]"}
+
+# rc.conf
+# bsd_mysql_rcconf_optfile: "${mysql_confdir}/my.cnf"
+# bsd_mysql_rcconf_pidfile: "${mysql_dbdir}/${hostname}.pid"
+bsd_mysql_rcconf_args_80: "--skip-new --log-error"
+bsd_mysql_rcconf_args_57: ""
+bsd_mysql_rcconf:
+  - {key: "mysql_dbdir", val: "{{ bsd_mysql_datadir }}"}
+  - {key: "mysql_confdir", val: "{{ bsd_mysql_conf_path }}"}
+  - {key: "mysql_user", val: "{{ bsd_mysql_mysql_user }}"}
+  - {key: "mysql_args", val: "{{ lookup('vars', 'bsd_mysql_rcconf_args_' ~ bsd_mysql_version) }}"}
 
 bsd_mysql_db: []
 bsd_mysql_user: []
+
+# wait_for MySQL service at port
+bsd_mysql_port_wait_timeout: 30
+
+# patches
+bsd_mysql_patches: true
+bsd_mysql_patches_list:
+  - patch: "0001-initialize-secure-v80.patch"
+    dest: "/usr/local/etc/rc.d/mysql-server"
+    ver: "80"
+  - patch: "0002-mysql_create_auth_tables-output-to-console-v80.patch"
+    dest: "/usr/local/etc/rc.d/mysql-server"
+    ver: "80"
+
+# directories
+bsd_mysql_directories_57: []
+bsd_mysql_directories_80:
+  - path: "{{ bsd_mysql_datadir }}"
+    owner: "{{ bsd_mysql_mysql_user }}"
+    group: "{{ bsd_mysql_mysql_user }}"
+    mode: "0750"
+  - path: "{{ bsd_mysql_tmpdir }}"
+    owner: "{{ bsd_mysql_mysql_user }}"
+    group: "{{ bsd_mysql_mysql_user }}"
+    mode: "0750"
+  - path: "{{ bsd_mysql_secure_file_priv }}"
+    owner: "{{ bsd_mysql_mysql_user }}"
+    group: "{{ bsd_mysql_mysql_user }}"
+    mode: "0750"
+bsd_mysql_directories: "{{ lookup('vars', 'bsd_mysql_directories_' ~ bsd_mysql_version) }}"
 
 # EOF
 ...

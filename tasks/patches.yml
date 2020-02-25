@@ -1,0 +1,11 @@
+---
+
+- name: "patch: Apply patches"
+  patch:
+    src: "{{ item.patch }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ bsd_mysql_patches_list }}"
+  when: item.ver is version(bsd_mysql_version, '==')
+
+# EOF
+...

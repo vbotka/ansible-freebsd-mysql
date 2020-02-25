@@ -1,0 +1,15 @@
+---
+
+- name: "mysql_info: Collect data."
+  mysql_info:
+    filter: "{{ bsd_mysql_info_filter }}"
+    login_user: "{{ bsd_mysql_login_user }}"
+    login_password: "{{ bsd_mysql_secret }}"
+  register: mysql_info_result
+
+- debug:
+    var: mysql_info_result
+  when: bsd_mysql_debug|bool
+
+# EOF
+...
