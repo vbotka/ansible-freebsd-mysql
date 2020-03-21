@@ -4,10 +4,13 @@
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_mysql/) FreeBSD. Install and configure MySQL.
 
+Please feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-mailserver-spamassassin/issues).
+
 
 ## Requirements
 
 See *defaults/main.yml*
+
 
 ## Variables
 
@@ -165,6 +168,7 @@ shell> ansible-playbook mysql.yml
 - [Installing MySQL on FreeBSD](https://dev.mysql.com/doc/refman/5.7/en/freebsd-installation.html)
 
 - [Guide On How To Install MySQL On FreeBSD](http://www.xfiles.dk/guide-on-how-to-install-mysql-on-freebsd/)
+
 
 ## License
 
