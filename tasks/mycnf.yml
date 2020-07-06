@@ -6,14 +6,15 @@
     creates: "{{ bsd_mysql_conf_file }}"
 
 - name: "mycnf: Configure {{ bsd_mysql_conf_file }}"
-  lineinfile:
-    dest: "{{ bsd_mysql_conf_file }}"
-    regexp: "^{{ item.key }}"
-    line: "{{ item.key }} = {{ item.val }}"
-    insertafter: "{{ item.after|default(omit) }}"
-    owner: "root"
-    group: "mysql"
-    mode: "0640"
+  ini_file:
+    path: "{{ bsd_mysql_conf_file }}"
+    state: "{{ item.state|default('present') }}"
+    section: "{{ item.sec }}"
+    option: "{{ item.key }}"
+    value: "{{ item.val }}"
+    owner: "{{ bsd_mysql_conf_owner }}"
+    group: "{{ bsd_mysql_conf_group }}"
+    mode: "{{ bsd_mysql_conf_mode }}"
     backup: "{{ bsd_mysql_conf_backup }}"
     create: true
   loop: "{{ bsd_mysql_conf }}"

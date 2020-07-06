@@ -1,0 +1,22 @@
+---
+
+- name: "rmlock: Get mysql service status"
+  command: /usr/local/etc/rc.d/mysql-server status
+  register: result
+  ignore_errors: true
+  changed_when: false
+
+- name: "rmlock: Debug mysql sevice facts"
+  debug:
+    var: result
+  when: bsd_mysql_debug|bool
+
+- name: "rmlock: Remove locks"
+  file:
+    state: absent
+    path: "{{ item }}"
+  loop: "{{ bsd_mysql_locks }}"
+  when: result.stdout|default('') == bsd_mysql_status_stopped
+
+# EOF
+...

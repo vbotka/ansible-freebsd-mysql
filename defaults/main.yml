@@ -1,13 +1,16 @@
 ---
 # defaults freebsd_mysql
 
+bsd_mysql_install: true
 bsd_mysql_enable: false
 bsd_mysql_debug: false
 bsd_mysql_debug_classified: false
 bsd_mysql_conf_backup: true
 
+# ansible lib
+# al_debug: true
+
 # sanity
-al_debug: true
 bsd_mysql_sanity: true
 bsd_mysql_sanity_platform: true
 bsd_mysql_sanity_ansible_version: true
@@ -23,6 +26,13 @@ freebsd_install_method: "packages"
 freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
+
+# remove locks when mysqld not running
+bsd_mysql_rmlock: false
+bsd_mysql_status_stopped: "mysql is not running."
+bsd_mysql_locks:
+  - /tmp/mysql.sock.lock
+  - /tmp/mysqlx.sock.lock
 
 # mysql_info
 bsd_mysql_info: true
@@ -46,8 +56,7 @@ bsd_mysql_secret_local_file_mode: "0600"
 
 # mysql
 bsd_mysql_version: "80"
-bsd_mysql_packages: true
-bsd_mysql_packages_list:
+bsd_mysql_packages:
   - "lang/python37"
   - "databases/mysql{{ bsd_mysql_version }}-client"
   - "databases/mysql{{ bsd_mysql_version }}-server"
@@ -58,25 +67,32 @@ bsd_mysql_packages_list:
 # - "databases/py-MySQLdb"
 
 # my.cnf
-bsd_mysql_conf_path: "/usr/local/etc/mysql"
+bsd_mysql_conf_path: /usr/local/etc/mysql
 bsd_mysql_conf_file: "{{ bsd_mysql_conf_path }}/my.cnf"
-bsd_mysql_mysql_user: "mysql"
+bsd_mysql_conf_owner: root
+bsd_mysql_conf_group: mysql
+bsd_mysql_conf_mode: "0640"
+bsd_mysql_mysql_user: mysql
 bsd_mysql_port: "3306"
 bsd_mysql_bind_address: "127.0.0.1"
-bsd_mysql_datadir: "/var/db/mysql"
-bsd_mysql_tmpdir: "/var/db/mysql_tmpdir"
-bsd_mysql_slave_load_tmpdir: "/var/db/mysql_tmpdir"
-bsd_mysql_secure_file_priv: "/var/db/mysql_secure"
-bsd_mysql_default_authentication_plugin: "mysql_native_password"
+bsd_mysql_log: /var/log/mysqld.log
+bsd_mysql_log_error: /var/log/mysqld.error.log
+bsd_mysql_datadir: /var/db/mysql
+bsd_mysql_tmpdir: /var/db/mysql_tmpdir
+bsd_mysql_slave_load_tmpdir: /var/db/mysql_tmpdir
+bsd_mysql_secure_file_priv: /var/db/mysql_secure
+bsd_mysql_default_authentication_plugin: mysql_native_password
 bsd_mysql_conf:
-  - {key: "user", val: "{{ bsd_mysql_mysql_user }}", after: "[mysqld]"}
-  - {key: "port", val: "{{ bsd_mysql_port }}", after: "[mysqld]"}
-  - {key: "bind-address", val: "{{ bsd_mysql_bind_address }}", after: "[mysqld]"}
-  - {key: "datadir", val: "{{ bsd_mysql_datadir }}", after: "[mysqld]"}
-  - {key: "tmpdir", val: "{{ bsd_mysql_tmpdir }}", after: "[mysqld]"}
-  - {key: "slave-load-tmpdir", val: "{{ bsd_mysql_slave_load_tmpdir }}", after: "[mysqld]"}
-  - {key: "secure-file-priv", val: "{{ bsd_mysql_secure_file_priv }}", after: "[mysqld]"}
-  - {key: "default-authentication-plugin", val: "{{ bsd_mysql_default_authentication_plugin }}", after: "[mysqld]"}
+  - {key: user, val: "{{ bsd_mysql_mysql_user }}", sec: mysqld}
+  - {key: port, val: "{{ bsd_mysql_port }}", sec: mysqld}
+  - {key: bind-address, val: "{{ bsd_mysql_bind_address }}", sec: mysqld}
+  - {key: log-error, val: "{{ bsd_mysql_log_error }}", sec: mysqld}
+  - {key: datadir, val: "{{ bsd_mysql_datadir }}", sec: mysqld}
+  - {key: tmpdir, val: "{{ bsd_mysql_tmpdir }}", sec: mysqld}
+  - {key: slave-load-tmpdir, val: "{{ bsd_mysql_slave_load_tmpdir }}", sec: mysqld}
+  - {key: secure-file-priv, val: "{{ bsd_mysql_secure_file_priv }}", sec: mysqld}
+  - {key: default-authentication-plugin, val: "{{ bsd_mysql_default_authentication_plugin }}", sec: mysqld}
+# - {key: log, val: "{{ bsd_mysql_log }}", sec: mysqld}
 
 # rc.conf
 # bsd_mysql_rcconf_optfile: "${mysql_confdir}/my.cnf"
@@ -121,6 +137,13 @@ bsd_mysql_directories_80:
     group: "{{ bsd_mysql_mysql_user }}"
     mode: "0750"
 bsd_mysql_directories: "{{ lookup('vars', 'bsd_mysql_directories_' ~ bsd_mysql_version) }}"
+
+# files
+bsd_mysql_files:
+  - path: "{{ bsd_mysql_log_error }}"
+    owner: root
+    group: "{{ bsd_mysql_mysql_user }}"
+    mode: "0660"
 
 # EOF
 ...

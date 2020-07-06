@@ -4,6 +4,9 @@
 - import_tasks: directories.yml
   tags: bsd_mysql_directories
 
+- import_tasks: files.yml
+  tags: bsd_mysql_files
+
 - import_tasks: sanity.yml
   when: bsd_mysql_sanity|bool
   tags: bsd_mysql_sanity
@@ -13,12 +16,16 @@
   tags: [bsd_mysql_debug, always]
 
 - import_tasks: packages.yml
-  when: bsd_mysql_packages|bool
+  when: bsd_mysql_install|bool
   tags: bsd_mysql_packages
 
 - import_tasks: patches.yml
   when: bsd_mysql_patches|bool
   tags: bsd_mysql_patches
+
+- import_tasks: rmlock.yml
+  when: bsd_mysql_rmlock|bool
+  tags: bsd_mysql_rmlock
 
 - import_tasks: mycnf.yml
   tags: bsd_mysql_mycnf
