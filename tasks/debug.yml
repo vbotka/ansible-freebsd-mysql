@@ -45,7 +45,6 @@
          bsd_mysql_mysq_user [{{ bsd_mysql_mysql_user }}]
          bsd_mysql_port [{{ bsd_mysql_port }}]
          bsd_mysql_bind_address [{{ bsd_mysql_bind_address }}]
-         bsd_mysql_log [{{ bsd_mysql_log }}]
          bsd_mysql_log_error [{{ bsd_mysql_log_error }}]
          bsd_mysql_datadir [{{ bsd_mysql_datadir }}]
          bsd_mysql_tmpdir [{{ bsd_mysql_tmpdir }}]

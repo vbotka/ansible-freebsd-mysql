@@ -75,14 +75,22 @@ bsd_mysql_conf_mode: "0640"
 bsd_mysql_mysql_user: mysql
 bsd_mysql_port: "3306"
 bsd_mysql_bind_address: "127.0.0.1"
-bsd_mysql_log: /var/log/mysqld.log
 bsd_mysql_log_error: /var/log/mysqld.error.log
 bsd_mysql_datadir: /var/db/mysql
 bsd_mysql_tmpdir: /var/db/mysql_tmpdir
 bsd_mysql_slave_load_tmpdir: /var/db/mysql_tmpdir
 bsd_mysql_secure_file_priv: /var/db/mysql_secure
 bsd_mysql_default_authentication_plugin: mysql_native_password
-bsd_mysql_conf:
+bsd_mysql_conf_57:
+  - {key: user, val: "{{ bsd_mysql_mysql_user }}", sec: mysqld}
+  - {key: port, val: "{{ bsd_mysql_port }}", sec: mysqld}
+  - {key: bind-address, val: "{{ bsd_mysql_bind_address }}", sec: mysqld}
+  - {key: log-error, val: "{{ bsd_mysql_log_error }}", sec: mysqld}
+  - {key: datadir, val: "{{ bsd_mysql_datadir }}", sec: mysqld}
+  - {key: tmpdir, val: "{{ bsd_mysql_tmpdir }}", sec: mysqld}
+  - {key: slave-load-tmpdir, val: "{{ bsd_mysql_slave_load_tmpdir }}", sec: mysqld}
+  - {key: secure-file-priv, val: "{{ bsd_mysql_secure_file_priv }}", sec: mysqld}
+bsd_mysql_conf_80:
   - {key: user, val: "{{ bsd_mysql_mysql_user }}", sec: mysqld}
   - {key: port, val: "{{ bsd_mysql_port }}", sec: mysqld}
   - {key: bind-address, val: "{{ bsd_mysql_bind_address }}", sec: mysqld}
@@ -92,7 +100,7 @@ bsd_mysql_conf:
   - {key: slave-load-tmpdir, val: "{{ bsd_mysql_slave_load_tmpdir }}", sec: mysqld}
   - {key: secure-file-priv, val: "{{ bsd_mysql_secure_file_priv }}", sec: mysqld}
   - {key: default-authentication-plugin, val: "{{ bsd_mysql_default_authentication_plugin }}", sec: mysqld}
-# - {key: log, val: "{{ bsd_mysql_log }}", sec: mysqld}
+bsd_mysql_conf: "{{ lookup('vars', 'bsd_mysql_conf_' ~ bsd_mysql_version) }}"
 
 # rc.conf
 # bsd_mysql_rcconf_optfile: "${mysql_confdir}/my.cnf"
