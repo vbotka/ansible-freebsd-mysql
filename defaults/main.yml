@@ -21,8 +21,8 @@ bsd_mysql_sanity_python: true
 bsd_mysql_sanity_python_version: "3.7"
 
 # install method
-freebsd_install_method: "packages"
-# freebsd_install_method: "ports"
+freebsd_install_method: packages
+# freebsd_install_method: ports
 freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
@@ -39,11 +39,11 @@ bsd_mysql_info: true
 bsd_mysql_info_filter: "version, databases, settings, users, slave_status, slave_hosts, master_status, engines"
 
 # service
-bsd_mysql_service: "mysql-server"
+bsd_mysql_service: mysql-server
 
 # temporary password for root created by 'mysqld --initialize'
 bsd_mysql_secret_file_remove: true
-bsd_mysql_login_user: "root"
+bsd_mysql_login_user: root
 bsd_mysql_secret_file: "/root/.mysql_secret"
 bsd_mysql_secret_local_dir: "{{ playbook_dir }}/{{ ansible_hostname }}"
 bsd_mysql_secret_local_file: "{{ bsd_mysql_secret_local_dir }}/mysql_secret"
@@ -117,7 +117,7 @@ bsd_mysql_db: []
 bsd_mysql_user: []
 
 # wait_for MySQL service at port
-bsd_mysql_port_wait_timeout: 30
+bsd_mysql_port_wait_timeout: 30  # wait_for attribute timeout is integer
 
 # patches
 bsd_mysql_patches: true

@@ -16,7 +16,7 @@
          bsd_mysql_secret [{{ bsd_mysql_secret|default('UNDEFINED') }}]
          {% endif %}
   debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ msg.split('\n')[:-1] }}"
   when: bsd_mysql_debug|bool
 
 - name: "create_db: Create MySQL databases."

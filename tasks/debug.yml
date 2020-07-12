@@ -1,6 +1,6 @@
 ---
 
-- name: "FreeBSD MySQL Debug."
+- name: Debug
   vars:
     msg: |
          ansible_architecture [{{ ansible_architecture }}]
@@ -83,7 +83,7 @@
          {{ bsd_mysql_user|to_nice_yaml }}
          {% endif %}
   debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ msg.split('\n')[:-1] }}"
 
 # EOF
 ...

@@ -3,7 +3,7 @@
 - name: "rcconf: Enable and start MySQL."
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: '^\s*mysql_enable\s*='
+    regexp: '^\s*mysql_enable\s*=(.*)$'
     line: 'mysql_enable="YES"'
     backup: "{{ bsd_mysql_conf_backup }}"
   notify: enable and start mysql
@@ -12,7 +12,7 @@
 - name: "rcconf: Disable and stop MySQL."
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: '^\s*mysql_enable\s*='
+    regexp: '^\s*mysql_enable\s*=(.*)$'
     line: 'mysql_enable="NO"'
     backup: "{{ bsd_mysql_conf_backup }}"
   notify: disable and stop mysql
@@ -21,7 +21,7 @@
 - name: "rcconf: Configure MySQL."
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: '^\s*{{ item.key }}\s*='
+    regexp: '^\s*{{ item.key }}\s*=(.*)$'
     line: '{{ item.key }}="{{ item.val }}"'
     backup: "{{ bsd_mysql_conf_backup }}"
   loop: "{{ bsd_mysql_rcconf }}"
