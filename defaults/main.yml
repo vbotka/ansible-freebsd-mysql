@@ -130,6 +130,9 @@ bsd_mysql_patches_list:
     ver: "80"
 
 # directories
+# TODO
+# https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-permissions.html
+# https://dev.mysql.com/doc/mysql-secure-deployment-guide/8.0/en/secure-deployment-permissions.html
 bsd_mysql_directories_57: []
 bsd_mysql_directories_80:
   - path: "{{ bsd_mysql_datadir }}"
@@ -147,11 +150,17 @@ bsd_mysql_directories_80:
 bsd_mysql_directories: "{{ lookup('vars', 'bsd_mysql_directories_' ~ bsd_mysql_version) }}"
 
 # files
+# TODO
+# https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-permissions.html
+# https://dev.mysql.com/doc/mysql-secure-deployment-guide/8.0/en/secure-deployment-permissions.html
 bsd_mysql_files:
   - path: "{{ bsd_mysql_log_error }}"
-    owner: root
+    owner: "{{ bsd_mysql_mysql_user }}"
     group: "{{ bsd_mysql_mysql_user }}"
-    mode: "0660"
+    mode: "0600"
+
+# mysql_secure_installation (TODO)
+bsd_mysql_secure_installation: false
 
 # EOF
 ...

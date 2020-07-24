@@ -36,6 +36,10 @@
 - import_tasks: assert.yml
   tags: [bsd_mysql_assert, never]
 
+# Warning: Task not idempotent !
+# * Run this task '-t bsd_mysql_secret' only once to change temporary
+#   password for bsd_mysql_login_user (root).
+# * Run '-t bsd_mysql_assert' first to see the status of the passwords
 - import_tasks: secret.yml
   tags: [bsd_mysql_secret, never]
 
@@ -50,6 +54,10 @@
 - import_tasks: mysql_user.yml
   when: bsd_mysql_enable|bool
   tags: bsd_mysql_user
+
+- import_tasks: mysql_secure_installation.yml
+  when: bsd_mysql_secure_installation|bool
+  tags: bsd_mysql_secure_installation
 
 # EOF
 ...

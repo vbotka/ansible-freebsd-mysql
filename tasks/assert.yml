@@ -16,6 +16,9 @@
 
 - name: "assert: Fail. Version < 8.0"
   block:
+
+# B.4.3.2 How to Reset the Root Password
+# https://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html
     - name: "assert: HOWTO root password does not exist"
       debug:
         msg: "{{ msg.split('\n') }}"

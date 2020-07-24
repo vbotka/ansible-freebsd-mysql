@@ -62,6 +62,8 @@
          bsd_mysql_locks
          {{ bsd_mysql_locks|to_yaml }}
 
+         bsd_mysql_secure_installation [{{ bsd_mysql_secure_installation }}]
+
          freebsd_install_method [{{ freebsd_install_method }}]
          freebsd_use_packages [{{ freebsd_use_packages|default('UNDEFINED') }}]
          freebsd_install_retries [{{ freebsd_install_retries }}]

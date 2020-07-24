@@ -1,0 +1,19 @@
+---
+
+- name: "mysql_secure_installation.yml: Debug"
+  debug:
+    msg: Not implemented yet.
+
+# TODO
+#
+# 4.4.2 mysql_secure_installation — Improve MySQL Installation Security
+# https://dev.mysql.com/doc/refman/8.0/en/mysql-secure-installation.html
+#
+# mysql-hardening
+# https://github.com/dev-sec/ansible-mysql-hardening
+#
+# Ansible: How to change MySQL server root password by reprovisioning the server
+# https://dba.stackexchange.com/questions/102066/ansible-how-to-change-mysql-server-root-password-by-reprovisioning-the-server/102100
+
+# EOF
+...
