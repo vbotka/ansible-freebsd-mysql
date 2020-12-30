@@ -19,6 +19,8 @@ bsd_mysql_sanity_datadir: true
 bsd_mysql_sanity_password: true
 bsd_mysql_sanity_python: true
 bsd_mysql_sanity_python_version: "3.7"
+# sanity: override supported versions
+al_supported_versions_override: ['11.3', '11.4', '12.0', '12.1', '12.2']
 
 # install method
 freebsd_install_method: packages
