@@ -1,10 +1,12 @@
 # freebsd_mysql
 
-[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-mysql)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_mysql)[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-mysql)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_mysql/) FreeBSD. Install and configure MySQL.
 
-Please feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-mailserver-spamassassin/issues).
+Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-mysql/issues).
+
+[Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
 
 ## Requirements
