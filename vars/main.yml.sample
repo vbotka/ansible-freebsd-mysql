@@ -6,22 +6,22 @@
 # bsd_mysql_debug_classified: true
 # bsd_mysql_conf_backup: true
 
-# bsd_mysql_version: 80
+# bsd_mysql_version: "80"
 
-# bsd_mysql_secret_local_file_owner: "admin"
+# bsd_mysql_secret_local_file_owner: admin
 # bsd_mysql_secret: "{{ MY_SECRET_PASSWORD }}"
 
 # bsd_mysql_secret_local_dir: "{{ playbook_dir }}/copy/{{ ansible_hostname }}/root"
 # bsd_mysql_secret_local_file: "{{ bsd_mysql_secret_local_dir }}/.mysql_secret"
 
 # bsd_mysql_db:
-#   - name: "roundcube"
+#   - name: roundcube
 
 # bsd_mysql_user:
-#   - user: "roundcube"
+#   - user: roundcube
 #     password: "{{ roundcube_mysql_password }}"
 #     priv: "roundcube.*:ALL"
-#     update_password: "on_create"
+#     update_password: on_create
 
 # EOF
 ...

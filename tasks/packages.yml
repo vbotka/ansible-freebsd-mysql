@@ -1,17 +1,17 @@
 ---
 
 - name: "packages: Install MySQL packages."
-  pkgng:
+  community.general.pkgng:
     name: "{{ item }}"
   loop: "{{ bsd_mysql_packages }}"
   register: result
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
-  when: freebsd_install_method == "packages"
+  when: freebsd_install_method|lower == "packages"
 
 - name: "packages: Install MySQL ports."
-  portinstall:
+  community.general.portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
   loop: "{{ bsd_mysql_packages }}"
@@ -19,7 +19,7 @@
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
-  when: freebsd_install_method == "ports"
+  when: freebsd_install_method|lower == "ports"
 
 # EOF
 ...

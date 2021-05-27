@@ -1,7 +1,7 @@
 ---
 
-- name: "directories: Create directories, set ownership, and permissions"
-  file:
+- name: "directories: Create directories, set ownership, and permissions."
+  ansible.builtin.file:
     state: directory
     path: "{{ item.path }}"
     owner: "{{ item.owner }}"

@@ -1,7 +1,7 @@
 ---
 
 - name: "mysql_secure_installation.yml: Debug"
-  debug:
+  ansible.builtin.debug:
     msg: Not implemented yet.
 
 # TODO

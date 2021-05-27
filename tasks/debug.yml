@@ -2,7 +2,7 @@
 
 - name: Debug
   vars:
-    msg: |
+    msg: |-
          ansible_architecture [{{ ansible_architecture }}]
          ansible_os_family [{{ ansible_os_family }}]
          ansible_distribution [{{ ansible_distribution }}]
@@ -10,6 +10,8 @@
          ansible_distribution_version [{{ ansible_distribution_version }}]
          ansible_distribution_release [{{ ansible_distribution_release }}]
          ansible_python_version [{{ ansible_python_version }}]
+
+         bsd_mysql_supported_versions {{ bsd_mysql_supported_versions }}
 
          bsd_mysql_install [{{ bsd_mysql_install }}]
          bsd_mysql_packages
@@ -35,6 +37,8 @@
          bsd_mysql_secret_local_file [{{ bsd_mysql_secret_local_file }}]
          bsd_mysql_secret_local_file_owner [{{ bsd_mysql_secret_local_file_owner }}]
          bsd_mysql_secret_local_file_mode [{{ bsd_mysql_secret_local_file_mode }}]
+         bsd_mysql_secret_file_backup [{{ bsd_mysql_secret_file_backup }}]
+         bsd_mysql_secret_file_backup_path [{{ bsd_mysql_secret_file_backup_path }}]
 
          bsd_mysql_conf_backup [{{ bsd_mysql_conf_backup }}]
          bsd_mysql_conf_path [{{ bsd_mysql_conf_path }}]
@@ -84,8 +88,8 @@
          bsd_mysql_user
          {{ bsd_mysql_user|to_nice_yaml }}
          {% endif %}
-  debug:
-    msg: "{{ msg.split('\n')[:-1] }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
 
 # EOF
 ...

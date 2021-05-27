@@ -1,12 +1,12 @@
 ---
 
-- name: "named: Copy {{ bsd_mysql_conf_file }}.sample to my.cnf"
-  command: "cp {{ bsd_mysql_conf_file }}.sample {{ bsd_mysql_conf_file }}"
-  args:
+- name: "mycnf: Copy {{ bsd_mysql_conf_file }}.sample to my.cnf"
+  command:
+    cmd: "cp {{ bsd_mysql_conf_file }}.sample {{ bsd_mysql_conf_file }}"
     creates: "{{ bsd_mysql_conf_file }}"
 
 - name: "mycnf: Configure {{ bsd_mysql_conf_file }}"
-  ini_file:
+  community.general.ini_file:
     path: "{{ bsd_mysql_conf_file }}"
     state: "{{ item.state|default('present') }}"
     section: "{{ item.sec }}"

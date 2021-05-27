@@ -1,13 +1,14 @@
 ---
 
 - name: "mysql_info: Collect data."
-  mysql_info:
+  community.mysql.mysql_info:
     filter: "{{ bsd_mysql_info_filter }}"
     login_user: "{{ bsd_mysql_login_user }}"
     login_password: "{{ bsd_mysql_secret }}"
   register: mysql_info_result
 
-- debug:
+- name: "mysql_info: Debug mysql_info_result"
+  ansible.builtin.debug:
     var: mysql_info_result
   when: bsd_mysql_debug|bool
 

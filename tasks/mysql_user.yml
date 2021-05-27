@@ -5,7 +5,7 @@
 # https://docs.ansible.com/ansible/latest/modules/mysql_user_module.html
 
 - name: "create_user: Create MySQL users."
-  mysql_user:
+  community.mysql.mysql_user:
     config_file: "{{ bsd_mysql_conf_file }}"
     name: "{{ item.user }}"
     login_user: "{{ bsd_mysql_login_user }}"
@@ -16,7 +16,6 @@
     state: "{{ item.state|default(omit) }}"
   loop: "{{ bsd_mysql_user }}"
   no_log: "{{ not bsd_mysql_debug_classified|bool }}"
-  when: bsd_mysql_enable|bool
 
 # EOF
 ...
