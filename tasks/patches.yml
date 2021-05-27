@@ -1,9 +1,10 @@
 ---
 
 - name: "patch: Apply patches"
-  patch:
+  ansible.posix.patch:
     src: "{{ item.patch }}"
     dest: "{{ item.dest }}"
+    backup: "{{ bsd_mysql_patch_backup }}"
   loop: "{{ bsd_mysql_patches_list }}"
   when: item.ver is version(bsd_mysql_version, '==')
 

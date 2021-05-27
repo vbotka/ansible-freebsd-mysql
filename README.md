@@ -11,6 +11,14 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 ## Requirements
 
+### Collections
+
+- ansible.posix
+- community.general
+- community.mysql
+
+### Others
+
 See *defaults/main.yml*
 
 
@@ -31,13 +39,16 @@ shell> ansible dbserver -e 'ansible_shell_type=csh ansible_shell_executable=/bin
        -a 'sudo pw usermod freebsd -s /bin/sh'
 ```
 
-2) Install role
+2) Install the role and collections
 
 ```
-shell> ansible-galaxy install vbotka.freebsd_mysql
+shell> ansible-galaxy role install vbotka.freebsd_mysql
+shell> ansible-galaxy collection install community.general
+shell> ansible-galaxy collection install community.mysql
+shell> ansible-galaxy collection install ansible.posix
 ```
 
-3) Fit variables
+3) Fit variables, e.g. in vars/main.yml
 
 ```
 shell> editor vbotka.freebsd_mysql/vars/main.yml
@@ -70,24 +81,26 @@ ansible_perl_interpreter=/usr/local/bin/perl
 
 5) Install and configure MySQL
 
-* Review variables
+In development, test the role step by step
 
-Set *bsd_mysql_debug: true*
 
-```
-shell> ansible-playbook mysql.yml -t bsd_mysql_debug
-```
-
-* Create directories
+* Create directories and files
 
 ```
 shell> ansible-playbook mysql.yml -t bsd_mysql_directories
+shell> ansible-playbook mysql.yml -t bsd_mysql_files
 ```
 
 * Test sanity
 
 ```
 shell> ansible-playbook mysql.yml -t bsd_mysql_sanity
+```
+
+* Review variables
+
+```
+shell> ansible-playbook mysql.yml -t bsd_mysql_debug -e bsd_mysql_debug=true
 ```
 
 * Install packages
@@ -98,37 +111,34 @@ shell> ansible-playbook mysql.yml -t bsd_mysql_packages
 
 * Apply patches
 
-Review patches in the *file* directory and fit the variable
-*bsd_mysql_patches* to your needs. Default v80 is secure
-initialization (--initialize) and output of *mysql_create_auth_tables*
+Review patches in the *file* directory and fit the variable *bsd_mysql_patches* to your
+needs. Default v80 is secure initialization (--initialize) and output of *mysql_create_auth_tables*
 to console.
 
 ```
-shell> ansible-playbook mysql.yml -t bsd_mysql_patch
+shell>  ansible-playbook mysql.yml -t bsd_mysql_patches -e bsd_mysql_patch_backup=true
 ```
 
 * Configure mycnf.yml
 
 ```
-shell> ansible-playbook mysql.yml -t bsd_mysql_mycnf
+shell> ansible-playbook freebsd-mysql.yml -t bsd_mysql_mycnf -e bsd_mysql_conf_backup=true
 ```
 
 * Configure rc.conf
 
-Review the list of options *bsd_mysql_rcconf*. Default for version 80
-is *mysql_args: "--skip-new --log-error"*. MySQL should be enabled
-*bsd_mysql_enable: true*. The service should start, initialize
-databases and create root password. Optionaly see the log
+Review the list of options *bsd_mysql_rcconf*. Default for version 80 is *mysql_args: "--skip-new
+--log-error"*. MySQL should be enabled *bsd_mysql_enable: true*. The service should start,
+initialize databases and create temporary root password. Optionally see the log
 */var/db/mysql/${hostname}.err*.
 
 ```
-shell> ansible-playbook mysql.yml -t bsd_mysql_rcconf
+shell> ansible-playbook freebsd-mysql.yml -t bsd_mysql_rcconf -e bsd_mysql_conf_backup=true
 ```
 
 * Test existence of files that contain temporary root password
 
-This task is tagged *never* and shall be run on demand only to test
-the temporary root password.
+This task is tagged *never* and shall be run on demand only to test the temporary root password
 
 ```
 shell> ansible-playbook mysql.yml -t bsd_mysql_assert
@@ -138,9 +148,9 @@ If the test fails find the HOWTO sections in the message.
 
 * Change root password
 
-Store temporary root password in the local file. Change the root
-password to *bsd_mysql_secret*. This task is tagged *never* and shall
-be run on demand only to change the temporary root password.
+Store temporary root password in the local file. Change the root password to
+*bsd_mysql_secret*. This task is tagged *never* and shall be run on demand only to change the
+temporary root password
 
 ```
 shell> ansible-playbook mysql.yml -t bsd_mysql_secret
@@ -163,6 +173,14 @@ shell> ansible-playbook mysql.yml
 ```
 shell> ansible-playbook mysql.yml
 ```
+
+To reconfigure any parameter it's sufficient to select particular tasks by tags when the server is
+running. The role should be idempotent. It's possible to repeatedly run the whole role if necessary.
+
+
+## Troubleshooting
+
+Enable *bsd_mysql_debug_classified*. Warning: the passwords will be displayed!
 
 
 ## References

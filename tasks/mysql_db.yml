@@ -6,7 +6,7 @@
 
 - name: "create_db: Debug."
   vars:
-    msg: |
+    msg: |-
          bsd_mysql_conf_file [{{ bsd_mysql_conf_file }}]
          bsd_mysql_login_user [{{ bsd_mysql_login_user }}]
          bsd_mysql_db
@@ -15,12 +15,12 @@
          {% if bsd_mysql_debug_classified %}
          bsd_mysql_secret [{{ bsd_mysql_secret|default('UNDEFINED') }}]
          {% endif %}
-  debug:
-    msg: "{{ msg.split('\n')[:-1] }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
   when: bsd_mysql_debug|bool
 
 - name: "create_db: Create MySQL databases."
-  mysql_db:
+  community.mysql.mysql_db:
     config_file: "{{ bsd_mysql_conf_file }}"
     name: "{{ item.name }}"
     login_user: "{{ bsd_mysql_login_user }}"
@@ -40,7 +40,6 @@
     encoding: "{{ item.encoding|default(omit) }}"
   loop: "{{ bsd_mysql_db }}"
   no_log: "{{ not bsd_mysql_debug_classified|bool }}"
-  when: bsd_mysql_enable|bool
 
 # EOF
 ...

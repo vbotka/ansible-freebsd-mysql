@@ -17,4 +17,8 @@ galaxy_info:
     - freebsd
     - mysql
 dependencies: []
+collections:
+  - ansible.posix
+  - community.general
+  - community.mysql
 ...
