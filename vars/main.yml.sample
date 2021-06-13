@@ -1,5 +1,5 @@
 ---
-# vars freebsd-mysql
+# vars samples freebsd_mysql
 
 # bsd_mysql_enable: true
 # bsd_mysql_debug: true

@@ -27,7 +27,8 @@
   loop: "{{ bsd_mysql_rcconf }}"
   notify: restart mysql
 
-- meta: flush_handlers
+- name: Meta flush_handlers
+  meta: flush_handlers
 
 - name: "rcconf: Make sure service {{ bsd_mysql_service }} is started when enabled."
   block:
