@@ -1,7 +1,7 @@
 ---
 
 - name: "mycnf: Copy {{ bsd_mysql_conf_file }}.sample to my.cnf"
-  command:
+  ansible.builtin.command:
     cmd: "cp {{ bsd_mysql_conf_file }}.sample {{ bsd_mysql_conf_file }}"
     creates: "{{ bsd_mysql_conf_file }}"
 

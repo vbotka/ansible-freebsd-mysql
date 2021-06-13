@@ -34,6 +34,7 @@
 
          bsd_mysql_secret_file [{{ bsd_mysql_secret_file }}]
          bsd_mysql_secret_file_remove [{{ bsd_mysql_secret_file_remove }}]
+         bsd_mysql_secret_local_dir [{{ bsd_mysql_secret_local_dir }}]
          bsd_mysql_secret_local_file [{{ bsd_mysql_secret_local_file }}]
          bsd_mysql_secret_local_file_owner [{{ bsd_mysql_secret_local_file_owner }}]
          bsd_mysql_secret_local_file_mode [{{ bsd_mysql_secret_local_file_mode }}]

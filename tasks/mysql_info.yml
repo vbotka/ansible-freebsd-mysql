@@ -6,11 +6,12 @@
     login_user: "{{ bsd_mysql_login_user }}"
     login_password: "{{ bsd_mysql_secret }}"
   register: mysql_info_result
+  no_log: true
 
 - name: "mysql_info: Debug mysql_info_result"
   ansible.builtin.debug:
     var: mysql_info_result
-  when: bsd_mysql_debug|bool
+  when: bsd_mysql_debug_classified|bool
 
 # EOF
 ...

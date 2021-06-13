@@ -7,7 +7,7 @@ bsd_mysql_debug: false
 bsd_mysql_debug_classified: false
 bsd_mysql_conf_backup: true
 bsd_mysql_patch_backup: false
-bsd_mysql_supported_versions: [57, 80] # list of integers
+bsd_mysql_supported_versions: [57, 80]  # list of integers
 
 # ansible lib
 # al_debug: true
