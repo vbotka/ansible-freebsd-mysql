@@ -10,6 +10,10 @@
   when: bsd_mysql_version|int not in bsd_mysql_supported_versions
   tags: [bsd_mysql_version, always]
 
+- name: Import vars.yml
+  ansible.builtin.import_tasks: vars.yml
+  tags: [bsd_mysql_vars, always]
+
 - name: Import directories.yml
   ansible.builtin.import_tasks: directories.yml
   tags: bsd_mysql_directories

@@ -11,11 +11,6 @@
          ansible_distribution_release [{{ ansible_distribution_release }}]
          ansible_python_version [{{ ansible_python_version }}]
 
-         bsd_mysql_supported_versions {{ bsd_mysql_supported_versions }}
-
-         bsd_mysql_install [{{ bsd_mysql_install }}]
-         bsd_mysql_packages
-         {{ bsd_mysql_packages|to_nice_yaml }}
          bsd_mysql_enable [{{ bsd_mysql_enable }}]
          bsd_mysql_version [{{ bsd_mysql_version }}]
          bsd_mysql_service [{{ bsd_mysql_service }}]
@@ -69,10 +64,20 @@
 
          bsd_mysql_secure_installation [{{ bsd_mysql_secure_installation }}]
 
+         bsd_mysql_supported_versions {{ bsd_mysql_supported_versions }}
+         bsd_mysql_python_version {{ bsd_mysql_python_version }}
+         bsd_mysql_sanity_python_version {{ bsd_mysql_sanity_python_version }}
+
          freebsd_install_method [{{ freebsd_install_method }}]
          freebsd_use_packages [{{ freebsd_use_packages|default('UNDEFINED') }}]
          freebsd_install_retries [{{ freebsd_install_retries }}]
          freebsd_install_delay [{{ freebsd_install_delay }}]
+         freebsd_flavors_enable [{{ freebsd_flavors_enable }}]
+         freebsd_flavors
+         {{ freebsd_flavors|to_yaml }}
+         bsd_mysql_install [{{ bsd_mysql_install }}]
+         bsd_mysql_packages
+         {{ bsd_mysql_packages|to_nice_yaml }}
 
          bsd_mysql_patches [{{ bsd_mysql_patches }}]
          bsd_mysql_patches_list
