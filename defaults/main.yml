@@ -35,7 +35,7 @@ freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 freebsd_flavors_enable: false
-freebsd_flavor_python: "{{ 'py' ~ bsd_mysql_python_version }}"
+freebsd_flavor_python: "py{{ bsd_mysql_python_version }}"
 freebsd_flavors: ["{{ freebsd_flavor_python }}"]
 
 # remove locks when mysqld not running
@@ -76,19 +76,19 @@ bsd_mysql_packages_basic:
   - "python{{ bsd_mysql_python_version }}"
   - "mysql{{ bsd_mysql_version }}-client"
   - "mysql{{ bsd_mysql_version }}-server"
-  - "py-pymysql"
-  - "py-mysql-connector-python"
-  - "py-cryptography"
+  - py-pymysql
+  - py-mysql-connector-python
+  - py-cryptography
 bsd_mysql_ports_basic:
   - "lang/python{{ bsd_mysql_python_version }}"
   - "databases/mysql{{ bsd_mysql_version }}-client"
   - "databases/mysql{{ bsd_mysql_version }}-server"
-  - "databases/py-pymysql"
-  - "databases/py-mysql-connector-python"
-  - "security/py-cryptography"
+  - databases/py-pymysql
+  - databases/py-mysql-connector-python
+  - security/py-cryptography
 # bsd_mysql_ports_extra:
-#   - "databases/py-mysqlclient"
-#   - "databases/py-MySQLdb"
+#   - databases/py-mysqlclient
+#   - databases/py-MySQLdb
 
 # my.cnf
 bsd_mysql_conf_path: /usr/local/etc/mysql
