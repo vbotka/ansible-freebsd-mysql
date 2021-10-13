@@ -25,7 +25,7 @@ bsd_mysql_sanity_password: true
 bsd_mysql_sanity_python: true
 bsd_mysql_sanity_python_version: "{{ ansible_python_version.split('.')[0:2]|join('.') }}"
 # sanity: override supported versions
-al_supported_versions_override: ['11.3', '11.4', '12.0', '12.1', '12.2', '13.0']
+al_supported_versions_override: ['12.2', '13.0']
 al_sanity_platform_warning: false
 
 # install method
@@ -35,7 +35,7 @@ freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 freebsd_flavors_enable: false
-freebsd_flavor_python: "{{ 'py' ~ bsd_mysql_python_version }}"
+freebsd_flavor_python: "py{{ bsd_mysql_python_version }}"
 freebsd_flavors: ["{{ freebsd_flavor_python }}"]
 
 # remove locks when mysqld not running
@@ -69,26 +69,16 @@ bsd_mysql_secret_local_file_mode: "0600"
 
 # mysql
 bsd_mysql_version: "80"  # string
-bsd_mysql_packages: "{{ (freebsd_install_method == 'packages')|
-                         ternary(bsd_mysql_packages_basic,
-                                 bsd_mysql_ports_basic) }}"
-bsd_mysql_packages_basic:
-  - "python{{ bsd_mysql_python_version }}"
-  - "mysql{{ bsd_mysql_version }}-client"
-  - "mysql{{ bsd_mysql_version }}-server"
-  - "py-pymysql"
-  - "py-mysql-connector-python"
-  - "py-cryptography"
-bsd_mysql_ports_basic:
+bsd_mysql_packages:
   - "lang/python{{ bsd_mysql_python_version }}"
   - "databases/mysql{{ bsd_mysql_version }}-client"
   - "databases/mysql{{ bsd_mysql_version }}-server"
-  - "databases/py-pymysql"
-  - "databases/py-mysql-connector-python"
-  - "security/py-cryptography"
-# bsd_mysql_ports_extra:
-#   - "databases/py-mysqlclient"
-#   - "databases/py-MySQLdb"
+bsd_mysql_packages2:
+  - databases/py-pymysql
+  - databases/py-mysql-connector-python
+  - security/py-cryptography
+# - databases/py-mysqlclient
+# - databases/py-MySQLdb
 
 # my.cnf
 bsd_mysql_conf_path: /usr/local/etc/mysql

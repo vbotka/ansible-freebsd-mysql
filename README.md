@@ -11,11 +11,15 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 ## Requirements
 
+### Roles
+
+* vbotka.ansible_lib
+
 ### Collections
 
-- ansible.posix
-- community.general
-- community.mysql
+* ansible.posix
+* community.general
+* community.mysql
 
 ### Others
 
@@ -24,17 +28,14 @@ See *defaults/main.yml*
 
 ## Role Variables
 
-Review *defaults/main.yml* and examples in *vars/main.yml*
-
-- MySQL version less then 5.7 needs file *bsd_mysql_secret_local_file* with root password
-- By default the server is disabled *bsd_mysql_enable: False*
-
-### freebsd_flavors_enable (default: False)
-
-This variable enables the flavors stored in *freebsd_flavors*. By default the flavors are
-disabled. This means that the default flavors from */etc/make.conf* will be installed. Enable this
-variable only if *freebsd_install_method=packages*. Ports won't recognize the flavors and the
-installation will crash. See the variables *bsd_mysql_packages* in *defaults/main.yml*.
+* See *defaults/main.yml* and examples in *vars/main.yml*
+* MySQL version less then 5.7 needs the file *bsd_mysql_secret_local_file* with the root password
+* By default the server is disabled *bsd_mysql_enable: False*
+* freebsd_flavors_enable (default: False). This variable enables the flavors stored in
+  *freebsd_flavors*. By default the flavors are disabled. This means that the default flavors from
+  */etc/make.conf* will be installed. Enable this variable only if
+  *freebsd_install_method=packages*. Ports won't recognize the flavors and the installation will
+  crash. See the variables *bsd_mysql_packages* in *defaults/main.yml*.
 
 
 ## Workflow

@@ -2,7 +2,7 @@
 
 - name: "packages: Install MySQL packages."
   community.general.pkgng:
-    name: "{{ bsd_mysql_packages }}"
+    name: "{{ bsd_mysql_packages + bsd_mysql_packages2 }}"
   register: result
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"
@@ -13,7 +13,7 @@
   community.general.portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
-  loop: "{{ bsd_mysql_packages }}"
+  loop: "{{ bsd_mysql_packages  + bsd_mysql_packages2 }}"
   register: result
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"

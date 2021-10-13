@@ -78,6 +78,8 @@
          bsd_mysql_install [{{ bsd_mysql_install }}]
          bsd_mysql_packages
          {{ bsd_mysql_packages|to_nice_yaml }}
+         bsd_mysql_packages2
+         {{ bsd_mysql_packages2|to_nice_yaml }}
 
          bsd_mysql_patches [{{ bsd_mysql_patches }}]
          bsd_mysql_patches_list
@@ -95,7 +97,7 @@
          {{ bsd_mysql_user|to_nice_yaml }}
          {% endif %}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
 
 # EOF
 ...

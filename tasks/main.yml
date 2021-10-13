@@ -30,7 +30,7 @@
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
   when: bsd_mysql_debug|bool
-  tags: [bsd_mysql_debug, always]
+  tags: bsd_mysql_debug
 
 - name: Import packages.yml
   ansible.builtin.import_tasks: packages.yml
