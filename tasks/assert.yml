@@ -22,7 +22,7 @@
 # https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
     - name: "assert: HOWTO temporary root password does not exist"
       ansible.builtin.debug:
-        msg: "{{ msg.split('\n') }}"
+        msg: "{{ '{}'.format(msg) }}"
       vars:
         msg: |-
           Neither local file {{ bsd_mysql_secret_local_file }}
@@ -57,7 +57,7 @@
   block:
     - name: "assert: HOWTO temporary root password does not exist"
       ansible.builtin.debug:
-        msg: "{{ msg.split('\n') }}"
+        msg: "{{ '{}'.format(msg) }}"
       vars:
         msg: |-
           Neither local file {{ bsd_mysql_secret_local_file }}

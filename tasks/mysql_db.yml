@@ -16,7 +16,7 @@
          bsd_mysql_secret [{{ bsd_mysql_secret|default('UNDEFINED') }}]
          {% endif %}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: bsd_mysql_debug|bool
 
 - name: "create_db: Create MySQL databases."
