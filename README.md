@@ -1,6 +1,6 @@
 # freebsd_mysql
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_mysql)[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-mysql)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_mysql)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_mysql/) FreeBSD. Install and configure MySQL.
 
@@ -205,4 +205,4 @@ Enable *bsd_mysql_debug_classified*. Warning: the passwords will be displayed!
 
 ## Author Information
 
-[Vladimir Botka](https://botka.link)
+[Vladimir Botka](https://botka.info)
