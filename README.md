@@ -1,6 +1,6 @@
 # freebsd_mysql
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_mysql)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_mysql)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql)[![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-mysql)](https://github.com/vbotka/ansible-freebsd-mysql/tags)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_mysql/) FreeBSD. Install and configure MySQL.
 
@@ -40,31 +40,34 @@ See *defaults/main.yml*
 
 ## Workflow
 
-1) Change shell to /bin/sh
+1) Change shell on the remote host to /bin/sh if necessary
 
-```
+```bash
 shell> ansible dbserver -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' \
        -a 'sudo pw usermod freebsd -s /bin/sh'
 ```
 
 2) Install the role and collections
 
-```
+```bash
 shell> ansible-galaxy role install vbotka.freebsd_mysql
+```
+
+Install the collections if necessary
+
+```bash
 shell> ansible-galaxy collection install community.general
 shell> ansible-galaxy collection install community.mysql
 shell> ansible-galaxy collection install ansible.posix
 ```
 
-3) Fit variables, e.g. in vars/main.yml
 
-```
-shell> editor vbotka.freebsd_mysql/vars/main.yml
-```
+3) Fit variables
+
 
 4) Create playbook and inventory
 
-```
+```bash
 shell> cat mysql.yml
 
 - hosts: dbserver
@@ -72,7 +75,7 @@ shell> cat mysql.yml
     - vbotka.freebsd_mysql
 ```
 
-```
+```bash
 shell> cat hosts
 [dbserver]
 <SERVER1-IP-OR-FQDN>
@@ -94,26 +97,26 @@ In development, test the role step by step
 
 * Create directories and files
 
-```
+```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_directories
 shell> ansible-playbook mysql.yml -t bsd_mysql_files
 ```
 
 * Test sanity
 
-```
+```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_sanity
 ```
 
 * Review variables
 
-```
+```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_debug -e bsd_mysql_debug=true
 ```
 
 * Install packages
 
-```
+```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_packages
 ```
 
@@ -123,13 +126,13 @@ Review patches in the *file* directory and fit the variable *bsd_mysql_patches* 
 needs. Default v80 is secure initialization (--initialize) and output of *mysql_create_auth_tables*
 to console.
 
-```
+```bash
 shell>  ansible-playbook mysql.yml -t bsd_mysql_patches -e bsd_mysql_patch_backup=true
 ```
 
 * Configure mycnf.yml
 
-```
+```bash
 shell> ansible-playbook freebsd-mysql.yml -t bsd_mysql_mycnf -e bsd_mysql_conf_backup=true
 ```
 
@@ -140,7 +143,7 @@ Review the list of options *bsd_mysql_rcconf*. Default for version 80 is *mysql_
 initialize databases and create temporary root password. Optionally see the log
 */var/db/mysql/${hostname}.err*.
 
-```
+```bash
 shell> ansible-playbook freebsd-mysql.yml -t bsd_mysql_rcconf -e bsd_mysql_conf_backup=true
 ```
 
@@ -148,7 +151,7 @@ shell> ansible-playbook freebsd-mysql.yml -t bsd_mysql_rcconf -e bsd_mysql_conf_
 
 This task is tagged *never* and shall be run on demand only to test the temporary root password
 
-```
+```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_assert
 ```
 
@@ -160,25 +163,25 @@ Store temporary root password in the local file. Change the root password to
 *bsd_mysql_secret*. This task is tagged *never* and shall be run on demand only to change the
 temporary root password
 
-```
+```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_secret
 ```
 
 * Run check mode and show the differences
 
-```
+```bash
 shell> ansible-playbook mysql.yml -CD
 ```
 
 * Execute the playbook
 
-```
+```bash
 shell> ansible-playbook mysql.yml
 ```
 
-* Execute the playbook again. Test the playbook is idempotent.
+* Execute the playbook again. Test the playbook is idempotent
 
-```
+```bash
 shell> ansible-playbook mysql.yml
 ```
 
@@ -191,11 +194,21 @@ running. The role should be idempotent. It's possible to repeatedly run the whol
 Enable *bsd_mysql_debug_classified*. Warning: the passwords will be displayed!
 
 
+## Ansible lint
+
+Use the configuration file *.ansible-lint.local* when running
+*ansible-lint*. Some rules might be disabled and some warnings might
+be ignored. See the notes in the configuration file.
+
+```bash
+shell> ansible-lint -c .ansible-lint.local
+```
+
+
 ## References
 
-- [Installing MySQL on FreeBSD](https://dev.mysql.com/doc/refman/5.7/en/freebsd-installation.html)
-
-- [Guide On How To Install MySQL On FreeBSD](http://www.xfiles.dk/guide-on-how-to-install-mysql-on-freebsd/)
+* [Installing MySQL on FreeBSD](https://dev.mysql.com/doc/refman/5.7/en/freebsd-installation.html)
+* [Guide On How To Install MySQL On FreeBSD](http://www.xfiles.dk/guide-on-how-to-install-mysql-on-freebsd/)
 
 
 ## License
