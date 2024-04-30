@@ -1,6 +1,5 @@
 ---
-
-- name: "patch: Apply patches"
+- name: "Patch: Apply patches"
   ansible.posix.patch:
     src: "{{ item.patch }}"
     dest: "{{ item.dest }}"
@@ -9,4 +8,3 @@
   when: item.ver is version(bsd_mysql_version, '==')
 
 # EOF
-...

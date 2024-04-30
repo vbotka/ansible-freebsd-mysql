@@ -1,6 +1,5 @@
 ---
-
-- name: "files: Create files set ownership, and permissions."
+- name: "Files: Create files set ownership, and permissions."
   ansible.builtin.file:
     state: touch
     access_time: preserve
@@ -12,4 +11,3 @@
   loop: "{{ bsd_mysql_files }}"
 
 # EOF
-...

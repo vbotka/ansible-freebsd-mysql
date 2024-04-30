@@ -1,6 +1,5 @@
 ---
-
-- name: "packages: Install MySQL packages."
+- name: "Packages: Install MySQL packages."
   community.general.pkgng:
     name: "{{ bsd_mysql_packages + bsd_mysql_packages2 }}"
   register: result
@@ -9,7 +8,7 @@
   delay: "{{ freebsd_install_delay }}"
   when: freebsd_install_method|lower == "packages"
 
-- name: "packages: Install MySQL ports."
+- name: "Packages: Install MySQL ports."
   community.general.portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
@@ -21,4 +20,3 @@
   when: freebsd_install_method|lower == "ports"
 
 # EOF
-...

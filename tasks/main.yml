@@ -1,12 +1,10 @@
 ---
 # tasks freebsd_mysql
 
-- name: "Test supported version of MySQL by this role."
+- name: Test supported version of MySQL by this role.
   ansible.builtin.fail:
-    msg: "[ERROR] Version {{ bsd_mysql_version }} is not supported by this role.
-          Only versions {{ bsd_mysql_supported_versions }} have been tested.
-          Update defaults/main.yml to enable other versions. Contributions are
-          welcome. See https://github.com/vbotka/ansible-freebsd-mysql"
+    msg: "[ERROR] Version {{ bsd_mysql_version }} is not supported by this role. Only versions {{ bsd_mysql_supported_versions }} have been tested. Update defaults/main.yml
+      to enable other versions. Contributions are welcome. See https://github.com/vbotka/ansible-freebsd-mysql"
   when: bsd_mysql_version|int not in bsd_mysql_supported_versions
   tags: [bsd_mysql_version, always]
 
@@ -92,4 +90,3 @@
   tags: bsd_mysql_secure_installation
 
 # EOF
-...
