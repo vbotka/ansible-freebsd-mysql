@@ -7,7 +7,7 @@ bsd_mysql_debug: false
 bsd_mysql_debug_classified: false
 bsd_mysql_conf_backup: true
 bsd_mysql_patch_backup: false
-bsd_mysql_supported_versions: [57, 80]  # list of integers
+bsd_mysql_supported_versions: [57, 80, 81, 82, 83]  # list of integers
 
 # ansible lib
 # al_debug: true
@@ -104,7 +104,7 @@ bsd_mysql_conf_57:
   - {key: tmpdir, val: "{{ bsd_mysql_tmpdir }}", sec: mysqld}
   - {key: slave-load-tmpdir, val: "{{ bsd_mysql_slave_load_tmpdir }}", sec: mysqld}
   - {key: secure-file-priv, val: "{{ bsd_mysql_secure_file_priv }}", sec: mysqld}
-bsd_mysql_conf_80:
+bsd_mysql_conf_8x:
   - {key: user, val: "{{ bsd_mysql_mysql_user }}", sec: mysqld}
   - {key: port, val: "{{ bsd_mysql_port }}", sec: mysqld}
   - {key: bind-address, val: "{{ bsd_mysql_bind_address }}", sec: mysqld}
@@ -114,12 +114,19 @@ bsd_mysql_conf_80:
   - {key: slave-load-tmpdir, val: "{{ bsd_mysql_slave_load_tmpdir }}", sec: mysqld}
   - {key: secure-file-priv, val: "{{ bsd_mysql_secure_file_priv }}", sec: mysqld}
   - {key: default-authentication-plugin, val: "{{ bsd_mysql_default_authentication_plugin }}", sec: mysqld}
+bsd_mysql_conf_80: "{{ bsd_mysql_conf_8x }}"
+bsd_mysql_conf_81: "{{ bsd_mysql_conf_8x }}"
+bsd_mysql_conf_82: "{{ bsd_mysql_conf_8x }}"
+bsd_mysql_conf_83: "{{ bsd_mysql_conf_8x }}"
 bsd_mysql_conf: "{{ lookup('vars', 'bsd_mysql_conf_' ~ bsd_mysql_version) }}"
 
 # rc.conf
 # bsd_mysql_rcconf_optfile: "${mysql_confdir}/my.cnf"
 # bsd_mysql_rcconf_pidfile: "${mysql_dbdir}/${hostname}.pid"
 bsd_mysql_rcconf_args_80: "--skip-new --log-error"
+bsd_mysql_rcconf_args_81: "--skip-new --log-error"
+bsd_mysql_rcconf_args_82: "--skip-new --log-error"
+bsd_mysql_rcconf_args_83: "--skip-new --log-error"
 bsd_mysql_rcconf_args_57: ""
 bsd_mysql_rcconf:
   - {key: mysql_dbdir, val: "{{ bsd_mysql_datadir }}"}
@@ -148,7 +155,7 @@ bsd_mysql_patches_list:
 # https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-permissions.html
 # https://dev.mysql.com/doc/mysql-secure-deployment-guide/8.0/en/secure-deployment-permissions.html
 bsd_mysql_directories_57: []
-bsd_mysql_directories_80:
+bsd_mysql_directories_8x:
   - path: "{{ bsd_mysql_datadir }}"
     owner: "{{ bsd_mysql_mysql_user }}"
     group: "{{ bsd_mysql_mysql_user }}"
@@ -161,6 +168,10 @@ bsd_mysql_directories_80:
     owner: "{{ bsd_mysql_mysql_user }}"
     group: "{{ bsd_mysql_mysql_user }}"
     mode: "0750"
+bsd_mysql_directories_80: "{{ bsd_mysql_directories_8x }}"
+bsd_mysql_directories_81: "{{ bsd_mysql_directories_8x }}"
+bsd_mysql_directories_82: "{{ bsd_mysql_directories_8x }}"
+bsd_mysql_directories_83: "{{ bsd_mysql_directories_8x }}"
 bsd_mysql_directories: "{{ lookup('vars', 'bsd_mysql_directories_' ~ bsd_mysql_version) }}"
 
 # files

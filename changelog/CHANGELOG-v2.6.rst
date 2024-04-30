@@ -10,16 +10,18 @@ vbotka.freebsd_mysql 2.6 Release Notes
 
 Release Summary
 ---------------
-Ansible 2.16 update
+Ansible 2.16 update.
 
 Major Changes
 -------------
 * Supported FreeBSD: 13.3, 14.0
+* Supported MySQL: 5.7, 8.0, 8.1, 8.2, 8.3
 
 Minor Changes
 -------------
-* Add changelog
+* Add changelog.
 * Update README, list, meta, and travis
+* Update debug format.
 
 Bugfixes
 --------
