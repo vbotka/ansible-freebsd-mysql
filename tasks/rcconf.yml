@@ -6,7 +6,7 @@
     line: mysql_enable="YES"
     backup: "{{ bsd_mysql_conf_backup }}"
   notify: enable and start mysql
-  when: bsd_mysql_enable|bool
+  when: bsd_mysql_enable | bool
 
 - name: "Rcconf: Disable and stop MySQL."
   ansible.builtin.lineinfile:
@@ -15,7 +15,7 @@
     line: mysql_enable="NO"
     backup: "{{ bsd_mysql_conf_backup }}"
   notify: disable and stop mysql
-  when: not bsd_mysql_enable|bool
+  when: not bsd_mysql_enable | bool
 
 - name: "Rcconf: Configure MySQL."
   ansible.builtin.lineinfile:
@@ -28,17 +28,20 @@
 
 - name: Meta flush_handlers
   ansible.builtin.meta: flush_handlers
-- name: "Rcconf: Make sure service {{ bsd_mysql_service }} is started when enabled."
-  when: bsd_mysql_enable|bool
 
-  # EOF
+- name: "Rcconf: Make sure the service is started when enabled {{ bsd_mysql_service }}"
+  when: bsd_mysql_enable | bool
   block:
+
     - name: "Rcconf: Start and enable MySQL service."
       ansible.builtin.service:
         name: "{{ bsd_mysql_service }}"
         state: started
         enabled: true
+
     - name: "Rcconf: Wait for MySQL service at port {{ bsd_mysql_port }}."
       ansible.builtin.wait_for:
         port: "{{ bsd_mysql_port }}"
         timeout: "{{ bsd_mysql_port_wait_timeout }}"
+
+# EOF

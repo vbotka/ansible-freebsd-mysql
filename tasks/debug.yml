@@ -1,5 +1,5 @@
 ---
-- name: Debug bsd_mysql_debug={{ bsd_mysql_debug }}
+- name: "Debug bsd_mysql_debug={{ bsd_mysql_debug | bool }}"
   vars:
     msg: |-
       ansible_architecture: {{ ansible_architecture }}
@@ -77,8 +77,8 @@
       bsd_mysql_packages2:
         {{ bsd_mysql_packages2 | to_nice_yaml(indent=2) | indent(2) }}
       bsd_mysql_patches: {{ bsd_mysql_patches }}
-      bsd_mysql_patches_list:
-        {{ bsd_mysql_patches_list | to_nice_yaml(indent=2) | indent(2) }}
+      bsd_mysql_patches_dict:
+        {{ bsd_mysql_patches_dict | to_nice_yaml(indent=2) | indent(2) }}
       bsd_mysql_directories:
         {{ bsd_mysql_directories | to_nice_yaml(indent=2) | indent(2) }}
       bsd_mysql_files:

@@ -6,24 +6,25 @@
     path: "{{ bsd_mysql_secret_file }}"
   register: my_remote_secret_file
 
-- name: "Assert: Debug"
+- name: "Assert: Debug bsd_mysql_debug={{ bsd_mysql_debug }}"
   ansible.builtin.debug:
-    msg:
-      - local {{ bsd_mysql_secret_local_file }} exists [{{ bsd_mysql_secret_local_file is exists }}]
-      - remote {{ bsd_mysql_secret_file }} exists [{{ my_remote_secret_file.stat.exists }}]
-  when: bsd_mysql_debug|bool
+    msg: |
+      local {{ bsd_mysql_secret_local_file }} exists: {{ bsd_mysql_secret_local_file is exists }}
+      remote {{ bsd_mysql_secret_file }} exists: {{ my_remote_secret_file.stat.exists }}
+  when: bsd_mysql_debug | bool
 
 - name: "Assert: Fail. Version < 8.0"
   when:
     - bsd_mysql_version is version('80', '<')
     - bsd_mysql_secret_local_file is not exists
     - not my_remote_secret_file.stat.exists
-
   block:
+
     # B.4.3.2 How to Reset the Root Password
     # https://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html
     # https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
-    - name: "Assert: HOWTO temporary root password does not exist"
+
+    - name: "Assert: HOWTO temporary root password does not exist for < 8.0"
       ansible.builtin.debug:
         msg: "{{ '{}'.format(msg) }}"
       vars:
@@ -50,16 +51,16 @@
 
     - name: "Assert: Fail. Temporary root password does not exist."
       ansible.builtin.fail:
-        msg: "[ERROR] Temporary root password does not exist."
+        msg: "[ERR] Temporary root password does not exist."
+
 - name: "Assert: Fail. Version >= 8.0"
   when:
     - bsd_mysql_version is version('80', '>=')
     - bsd_mysql_secret_local_file is not exists
     - not my_remote_secret_file.stat.exists
-
-  # EOF
   block:
-    - name: "Assert: HOWTO temporary root password does not exist"
+
+    - name: "Assert: HOWTO temporary root password does not exist for >= 8.0"
       ansible.builtin.debug:
         msg: "{{ '{}'.format(msg) }}"
       vars:
@@ -97,4 +98,6 @@
 
     - name: "Assert: Fail. Temporary root password does not exist."
       ansible.builtin.fail:
-        msg: "[ERROR] Temporary root password does not exist."
+        msg: "[ERR] Temporary root password does not exist."
+
+# EOF

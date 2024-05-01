@@ -26,6 +26,14 @@ Minor Changes
 Bugfixes
 --------
 * Fix Ansible lint.
+* Set owner=bsd_mysql_secret_local_file_owner of
+  bsd_mysql_secret_local_dir. Otherwise the test
+  'bsd_mysql_secret_local_file is exists' will fail.
 
 Breaking Changes / Porting Guide
 --------------------------------
+* Default bsd_mysql_install=false
+* Default al_supported_versions_override=[]
+* Default +bsd_mysql_directories=[]
+* Default +bsd_mysql_files=[]
+* bsd_mysql_patches_list changed to bsd_mysql_patches_dict

@@ -7,9 +7,9 @@
   register: mysql_info_result
   no_log: true
 
-- name: "Mysql_info: Debug mysql_info_result"
+- name: "Mysql_info: Debug mysql_info_result bsd_mysql_debug_classified={{ bsd_mysql_debug_classified | bool }}"
   ansible.builtin.debug:
     var: mysql_info_result
-  when: bsd_mysql_debug_classified|bool
+  when: bsd_mysql_debug_classified | bool
 
 # EOF

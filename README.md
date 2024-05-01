@@ -80,13 +80,14 @@ shell> cat hosts
 [dbserver]
 <SERVER1-IP-OR-FQDN>
 <SERVER2-IP-OR-FQDN>
+
 [dbserver:vars]
 ansible_connection=ssh
 ansible_user=freebsd
-ansible_become=yes
+ansible_become=true
 ansible_become_user=root
 ansible_become_method=sudo
-ansible_python_interpreter=/usr/local/bin/python3.7
+ansible_python_interpreter=/usr/local/bin/python3.9
 ansible_perl_interpreter=/usr/local/bin/perl
 ```
 
@@ -94,8 +95,12 @@ ansible_perl_interpreter=/usr/local/bin/perl
 
 In development, test the role step by step
 
-
 * Create directories and files
+
+By default, the lists *bsd_mysql_directories* and *bsd_mysql_files*
+are empty. As a result the below tasks will be skipped. You might want
+to create *bsd_mysql_mysql_user* first if you want to manage any
+directories or files before the packages are installed
 
 ```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_directories

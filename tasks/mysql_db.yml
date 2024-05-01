@@ -3,41 +3,40 @@
 # Complete module parameters
 # https://docs.ansible.com/ansible/latest/modules/mysql_db_module.html
 
-- name: "Create_db: Debug."
+- name: "Create_db: Debug bsd_mysql_debug={{ bsd_mysql_debug }}"
   vars:
     msg: |-
-      bsd_mysql_conf_file [{{ bsd_mysql_conf_file }}]
-      bsd_mysql_login_user [{{ bsd_mysql_login_user }}]
-      bsd_mysql_db
-      {{ bsd_mysql_db | to_nice_yaml }}
-
+      bsd_mysql_conf_file: {{ bsd_mysql_conf_file }}
+      bsd_mysql_login_user: {{ bsd_mysql_login_user }}
+      bsd_mysql_db:
+        {{ bsd_mysql_db | to_nice_yaml(indent=2) | indent(2) }}
       {% if bsd_mysql_debug_classified %}
-      bsd_mysql_secret [{{ bsd_mysql_secret | default('UNDEFINED') }}]
+      bsd_mysql_secret: {{ bsd_mysql_secret | d('UNDEFINED') }}
       {% endif %}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: bsd_mysql_debug|bool
+  when: bsd_mysql_debug | bool
 
 - name: "Create_db: Create MySQL databases."
   community.mysql.mysql_db:
     config_file: "{{ bsd_mysql_conf_file }}"
     name: "{{ item.name }}"
     login_user: "{{ bsd_mysql_login_user }}"
-    login_password: "{{ bsd_mysql_secret | default(omit) }}"
-    login_host: "{{ item.login_host | default(omit) }}"
-    login_port: "{{ item.login_port | default(omit) }}"
-    login_unix_socket: "{{ item.login_unix_socket | default(omit) }}"
-    quick: "{{ item.quick | default(omit) }}"
-    single_transaction: "{{ item.single_transaction | default(omit) }}"
-    ssl_ca: "{{ item.ssl_ca | default(omit) }}"
-    ssl_cert: "{{ item.ssl_cert | default(omit) }}"
-    ssl_key: "{{ item.ssl_key | default(omit) }}"
-    state: "{{ item.state | default(omit) }}"
-    target: "{{ item.target | default(omit) }}"
-    collation: "{{ item.collation | default(omit) }}"
-    connect_timeout: "{{ item.connect_timeout | default(omit) }}"
-    encoding: "{{ item.encoding | default(omit) }}"
+    login_password: "{{ bsd_mysql_secret | d(omit) }}"
+    login_host: "{{ item.login_host | d(omit) }}"
+    login_port: "{{ item.login_port | d(omit) }}"
+    login_unix_socket: "{{ item.login_unix_socket | d(omit) }}"
+    quick: "{{ item.quick | d(omit) }}"
+    single_transaction: "{{ item.single_transaction | d(omit) }}"
+    ssl_ca: "{{ item.ssl_ca | d(omit) }}"
+    ssl_cert: "{{ item.ssl_cert | d(omit) }}"
+    ssl_key: "{{ item.ssl_key | d(omit) }}"
+    state: "{{ item.state | d(omit) }}"
+    target: "{{ item.target | d(omit) }}"
+    collation: "{{ item.collation | d(omit) }}"
+    connect_timeout: "{{ item.connect_timeout | d(omit) }}"
+    encoding: "{{ item.encoding | d(omit) }}"
   loop: "{{ bsd_mysql_db }}"
-  no_log: "{{ not bsd_mysql_debug_classified|bool }}"
+  no_log: "{{ not bsd_mysql_debug_classified | bool }}"
 
 # EOF

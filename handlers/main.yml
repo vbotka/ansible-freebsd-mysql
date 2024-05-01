@@ -2,37 +2,43 @@
 # handlers freebsd_mysql
 
 - name: Enable and start mysql
+  listen: enable and start mysql
   ansible.builtin.service:
     name: "{{ bsd_mysql_service }}"
     state: started
     enabled: true
 
 - name: Disable and stop mysql
+  listen: disable and stop mysql
   ansible.builtin.service:
     name: "{{ bsd_mysql_service }}"
     state: stopped
     enabled: false
 
 - name: Start mysql
+  listen: start mysql
   ansible.builtin.service:
     name: "{{ bsd_mysql_service }}"
     state: started
 
 - name: Stop mysql
+  listen: stop mysql
   ansible.builtin.service:
     name: "{{ bsd_mysql_service }}"
     state: stopped
 
 - name: Restart mysql
+  listen: restart mysql
   ansible.builtin.service:
     name: "{{ bsd_mysql_service }}"
     state: restarted
-  when: bsd_mysql_enable|bool
+  when: bsd_mysql_enable | bool
 
 - name: Reload mysql
+  listen: reload mysql
   ansible.builtin.service:
     name: "{{ bsd_mysql_service }}"
     state: reloaded
-  when: bsd_mysql_enable|bool
+  when: bsd_mysql_enable | bool
 
 # EOF
