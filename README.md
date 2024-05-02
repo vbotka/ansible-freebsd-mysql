@@ -1,6 +1,8 @@
 # freebsd_mysql
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_mysql)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql)[![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-mysql)](https://github.com/vbotka/ansible-freebsd-mysql/tags)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_mysql)
+[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-mysql)
+[![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-mysql)](https://github.com/vbotka/ansible-freebsd-mysql/tags)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_mysql/) FreeBSD. Install and configure MySQL.
 
@@ -212,7 +214,7 @@ shell> ansible-lint -c .ansible-lint.local
 
 ## References
 
-* [Installing MySQL on FreeBSD](https://dev.mysql.com/doc/refman/5.7/en/freebsd-installation.html)
+* [Installing MySQL on FreeBSD](https://dev.mysql.com/doc/mysql-linuxunix-excerpt/8.3/en/freebsd-installation.html)
 * [Guide On How To Install MySQL On FreeBSD](http://www.xfiles.dk/guide-on-how-to-install-mysql-on-freebsd/)
 
 
