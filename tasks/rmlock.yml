@@ -1,23 +1,21 @@
 ---
-
-- name: "rmlock: Get mysql service status"
+- name: "Rmlock: Get mysql service status"
   ansible.builtin.command:
     cmd: /usr/local/etc/rc.d/mysql-server status
   register: result
   ignore_errors: true
   changed_when: false
 
-- name: "rmlock: Debug mysql sevice facts"
+- name: "Rmlock: Debug mysql sevice facts bsd_mysql_debug={{ bsd_mysql_debug }}"
   ansible.builtin.debug:
     var: result
-  when: bsd_mysql_debug|bool
+  when: bsd_mysql_debug | bool
 
-- name: "rmlock: Remove locks"
+- name: "Rmlock: Remove locks"
   ansible.builtin.file:
     state: absent
     path: "{{ item }}"
   loop: "{{ bsd_mysql_locks }}"
-  when: result.stdout|default('') == bsd_mysql_status_stopped
+  when: result.stdout|d('') == bsd_mysql_status_stopped
 
 # EOF
-...

@@ -1,26 +1,30 @@
 ---
-
 # Test temporary root password exists
 
-- name: "assert: Stat {{ bsd_mysql_secret_file }}"
+- name: "Assert: Stat {{ bsd_mysql_secret_file }}"
   ansible.builtin.stat:
     path: "{{ bsd_mysql_secret_file }}"
   register: my_remote_secret_file
 
-- name: "assert: Debug"
+- name: "Assert: Debug bsd_mysql_debug={{ bsd_mysql_debug }}"
   ansible.builtin.debug:
-    msg:
-      - "local {{ bsd_mysql_secret_local_file }} exists [{{ bsd_mysql_secret_local_file is exists }}]"
-      - "remote {{ bsd_mysql_secret_file }} exists [{{ my_remote_secret_file.stat.exists }}]"
-  when: bsd_mysql_debug|bool
+    msg: |
+      local {{ bsd_mysql_secret_local_file }} exists: {{ bsd_mysql_secret_local_file is exists }}
+      remote {{ bsd_mysql_secret_file }} exists: {{ my_remote_secret_file.stat.exists }}
+  when: bsd_mysql_debug | bool
 
-- name: "assert: Fail. Version < 8.0"
+- name: "Assert: Fail. Version < 8.0"
+  when:
+    - bsd_mysql_version is version('80', '<')
+    - bsd_mysql_secret_local_file is not exists
+    - not my_remote_secret_file.stat.exists
   block:
 
-# B.4.3.2 How to Reset the Root Password
-# https://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html
-# https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
-    - name: "assert: HOWTO temporary root password does not exist"
+    # B.4.3.2 How to Reset the Root Password
+    # https://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html
+    # https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
+
+    - name: "Assert: HOWTO temporary root password does not exist for < 8.0"
       ansible.builtin.debug:
         msg: "{{ '{}'.format(msg) }}"
       vars:
@@ -45,17 +49,18 @@
           shell> service mysql-server start
           shell> ansible-playbook playbook.yml -t bsd_mysql_assert
 
-    - name: "assert: Fail. Temporary root password does not exist."
+    - name: "Assert: Fail. Temporary root password does not exist."
       ansible.builtin.fail:
-        msg: "[ERROR] Temporary root password does not exist."
+        msg: "[ERR] Temporary root password does not exist."
+
+- name: "Assert: Fail. Version >= 8.0"
   when:
-    - bsd_mysql_version is version('80', '<')
+    - bsd_mysql_version is version('80', '>=')
     - bsd_mysql_secret_local_file is not exists
     - not my_remote_secret_file.stat.exists
-
-- name: "assert: Fail. Version >= 8.0"
   block:
-    - name: "assert: HOWTO temporary root password does not exist"
+
+    - name: "Assert: HOWTO temporary root password does not exist for >= 8.0"
       ansible.builtin.debug:
         msg: "{{ '{}'.format(msg) }}"
       vars:
@@ -81,23 +86,18 @@
           shell> service mysql-server start
           shell> ansible-playbook playbook.yml -t bsd_mysql_assert
 
-# Next option is to create a file with the SQL and run it
-# B.3.3.2.2 Resetting the Root Password: Unix and Unix-Like Systems
-# https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
-#
-# shell> ls -la /home/.mysql_secret.init
-# -rw-------  1 mysql  mysql  57 May 26 20:59 /home/.mysql_secret.init
-# shell> cat /home/.mysql_secret.init
-# ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
-# shell> mysqld_safe --init-file=/home/.mysql_secret.init --user=mysql &
+    # Next option is to create a file with the SQL and run it
+    # B.3.3.2.2 Resetting the Root Password: Unix and Unix-Like Systems
+    # https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
+    #
+    # shell> ls -la /home/.mysql_secret.init
+    # -rw-------  1 mysql  mysql  57 May 26 20:59 /home/.mysql_secret.init
+    # shell> cat /home/.mysql_secret.init
+    # ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
+    # shell> mysqld_safe --init-file=/home/.mysql_secret.init --user=mysql &
 
-    - name: "assert: Fail. Temporary root password does not exist."
+    - name: "Assert: Fail. Temporary root password does not exist."
       ansible.builtin.fail:
-        msg: "[ERROR] Temporary root password does not exist."
-  when:
-    - bsd_mysql_version is version('80', '>=')
-    - bsd_mysql_secret_local_file is not exists
-    - not my_remote_secret_file.stat.exists
+        msg: "[ERR] Temporary root password does not exist."
 
 # EOF
-...

@@ -1,12 +1,13 @@
 ---
 # tasks freebsd_mysql
 
-- name: "Test supported version of MySQL by this role."
+- name: Test supported version of MySQL by this role.
   ansible.builtin.fail:
-    msg: "[ERROR] Version {{ bsd_mysql_version }} is not supported by this role.
-          Only versions {{ bsd_mysql_supported_versions }} have been tested.
-          Update defaults/main.yml to enable other versions. Contributions are
-          welcome. See https://github.com/vbotka/ansible-freebsd-mysql"
+    msg: >
+      [ERR] Version {{ bsd_mysql_version }} is not supported by this role.
+      Only versions {{ bsd_mysql_supported_versions }} have been tested.
+      Update defaults/main.yml to enable other versions. Contributions are welcome.
+      See https://github.com/vbotka/ansible-freebsd-mysql
   when: bsd_mysql_version|int not in bsd_mysql_supported_versions
   tags: [bsd_mysql_version, always]
 
@@ -16,35 +17,37 @@
 
 - name: Import directories.yml
   ansible.builtin.import_tasks: directories.yml
+  when: bsd_mysql_directories|length > 0
   tags: bsd_mysql_directories
 
 - name: Import files.yml
   ansible.builtin.import_tasks: files.yml
+  when: bsd_mysql_files|length > 0
   tags: bsd_mysql_files
 
 - name: Import sanity.yml
   ansible.builtin.import_tasks: sanity.yml
-  when: bsd_mysql_sanity|bool
+  when: bsd_mysql_sanity | bool
   tags: bsd_mysql_sanity
 
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
-  when: bsd_mysql_debug|bool
+  when: bsd_mysql_debug | bool
   tags: bsd_mysql_debug
 
 - name: Import packages.yml
   ansible.builtin.import_tasks: packages.yml
-  when: bsd_mysql_install|bool
+  when: bsd_mysql_install | bool
   tags: bsd_mysql_packages
 
 - name: Import patches.yml
   ansible.builtin.import_tasks: patches.yml
-  when: bsd_mysql_patches|bool
+  when: bsd_mysql_patches | bool
   tags: bsd_mysql_patches
 
 - name: Import rmlock.yml
   ansible.builtin.import_tasks: rmlock.yml
-  when: bsd_mysql_rmlock|bool
+  when: bsd_mysql_rmlock | bool
   tags: bsd_mysql_rmlock
 
 - name: Import mycnf.yml
@@ -73,23 +76,22 @@
 
 - name: Import mysql_info.yml
   ansible.builtin.import_tasks: mysql_info.yml
-  when: bsd_mysql_info|bool
+  when: bsd_mysql_info | bool
   tags: bsd_mysql_info
 
 - name: Import mysql_db.yml
   ansible.builtin.import_tasks: mysql_db.yml
-  when: bsd_mysql_enable|bool
+  when: bsd_mysql_enable | bool
   tags: bsd_mysql_db
 
 - name: Import mysql_user.yml
   ansible.builtin.import_tasks: mysql_user.yml
-  when: bsd_mysql_enable|bool
+  when: bsd_mysql_enable | bool
   tags: bsd_mysql_user
 
 - name: Import mysql_secure_installation.yml
   ansible.builtin.import_tasks: mysql_secure_installation.yml
-  when: bsd_mysql_secure_installation|bool
+  when: bsd_mysql_secure_installation | bool
   tags: bsd_mysql_secure_installation
 
 # EOF
-...

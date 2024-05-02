@@ -1,6 +1,5 @@
 ---
-
-- name: "directories: Create directories, set ownership, and permissions."
+- name: "Directories: Create directories, set ownership, and permissions."
   ansible.builtin.file:
     state: directory
     path: "{{ item.path }}"
@@ -10,4 +9,3 @@
   loop: "{{ bsd_mysql_directories }}"
 
 # EOF
-...

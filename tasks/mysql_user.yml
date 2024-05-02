@@ -1,21 +1,19 @@
 ---
-
 # TODO
 # Complete module parameters
 # https://docs.ansible.com/ansible/latest/modules/mysql_user_module.html
 
-- name: "create_user: Create MySQL users."
+- name: "Create_user: Create MySQL users."
   community.mysql.mysql_user:
     config_file: "{{ bsd_mysql_conf_file }}"
     name: "{{ item.user }}"
     login_user: "{{ bsd_mysql_login_user }}"
     login_password: "{{ bsd_mysql_secret }}"
-    password: "{{ item.password|default(omit) }}"
-    priv: "{{ item.priv|default(omit) }}"
-    update_password: "{{ item.update_password|default(omit) }}"
-    state: "{{ item.state|default(omit) }}"
+    password: "{{ item.password | d(omit) }}"
+    priv: "{{ item.priv | d(omit) }}"
+    update_password: "{{ item.update_password | d(omit) }}"
+    state: "{{ item.state | d(omit) }}"
   loop: "{{ bsd_mysql_user }}"
-  no_log: "{{ not bsd_mysql_debug_classified|bool }}"
+  no_log: "{{ not bsd_mysql_debug_classified | bool }}"
 
 # EOF
-...

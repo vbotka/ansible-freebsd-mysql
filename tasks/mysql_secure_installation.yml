@@ -1,6 +1,5 @@
 ---
-
-- name: "mysql_secure_installation.yml: Debug"
+- name: "Mysql_secure_installation.yml: Debug"
   ansible.builtin.debug:
     msg: Not implemented yet.
 
@@ -16,4 +15,3 @@
 # https://dba.stackexchange.com/questions/102066/ansible-how-to-change-mysql-server-root-password-by-reprovisioning-the-server/102100
 
 # EOF
-...

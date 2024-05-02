@@ -1,6 +1,5 @@
 ---
-
-- name: "mysql_info: Collect data."
+- name: "Mysql_info: Collect data."
   community.mysql.mysql_info:
     filter: "{{ bsd_mysql_info_filter }}"
     login_user: "{{ bsd_mysql_login_user }}"
@@ -8,10 +7,9 @@
   register: mysql_info_result
   no_log: true
 
-- name: "mysql_info: Debug mysql_info_result"
+- name: "Mysql_info: Debug mysql_info_result bsd_mysql_debug_classified={{ bsd_mysql_debug_classified | bool }}"
   ansible.builtin.debug:
     var: mysql_info_result
-  when: bsd_mysql_debug_classified|bool
+  when: bsd_mysql_debug_classified | bool
 
 # EOF
-...
