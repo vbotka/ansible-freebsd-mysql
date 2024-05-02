@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Update sanity.yml
 
 
 2.6.0
