@@ -214,8 +214,8 @@ shell> ansible-lint -c .ansible-lint.local
 
 ## References
 
+* [MySQL Reference Manual](https://dev.mysql.com/doc/refman/8.0/en/)
 * [Installing MySQL on FreeBSD](https://dev.mysql.com/doc/mysql-linuxunix-excerpt/8.3/en/freebsd-installation.html)
-* [Guide On How To Install MySQL On FreeBSD](http://www.xfiles.dk/guide-on-how-to-install-mysql-on-freebsd/)
 
 
 ## License
