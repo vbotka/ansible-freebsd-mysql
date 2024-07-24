@@ -15,10 +15,13 @@ Ansible 2.17 update.
 Major Changes
 -------------
 * Add supported 14.1
+* Upgrade default bsd_mysql_version: "81"
+
 
 Minor Changes
 -------------
 * Update README.
+* Update lynt conf.
 * Update sanity.yml
 * Update debug
 * Add var bsd_mysql_role_version

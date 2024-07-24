@@ -1,5 +1,6 @@
 ---
 # defaults freebsd_mysql
+bsd_mysql_role_version: 2.6.1
 
 bsd_mysql_install: false
 bsd_mysql_enable: false
@@ -24,9 +25,14 @@ bsd_mysql_sanity_datadir: true
 bsd_mysql_sanity_password: true
 bsd_mysql_sanity_python: true
 bsd_mysql_sanity_python_version: "{{ ansible_python_version.split('.')[0:2] | join('.') }}"
+
 # sanity: override supported versions
-# al_supported_versions_override: ["12.2", "12.3", "12.4", "13.0", "13.1", "13.2", "13.3", "14.0"]
 al_supported_versions_override: []
+# al_supported_versions_override: "{{ al_supported_versions_override_rel | flatten }}"
+# al_supported_versions_override_rel:
+#   - ["12.2", "12.3", "12.4"]
+#   - ["13.0", "13.1", "13.2", "13.3"]
+#   - ["14.0", "14.1"]
 al_sanity_platform_warning: false
 
 # install method
@@ -68,7 +74,7 @@ bsd_mysql_secret_local_file_mode: "0600"
 # bsd_mysql_secret: "MY-SECRET-PASSWORD"
 
 # mysql
-bsd_mysql_version: "80" # string
+bsd_mysql_version: "81" # string
 bsd_mysql_packages:
   - lang/python{{ bsd_mysql_python_version }}
   - databases/mysql{{ bsd_mysql_version }}-client
@@ -122,7 +128,7 @@ bsd_mysql_conf: "{{ lookup('vars',
 # bsd_mysql_rcconf_optfile: "${mysql_confdir}/my.cnf"
 # bsd_mysql_rcconf_pidfile: "${mysql_dbdir}/${hostname}.pid"
 bsd_mysql_rcconf_args_default: --skip-new --log-error
-bsd_mysql_rcconf_args_57: ""
+bsd_mysql_rcconf_args_81: ""
 bsd_mysql_rcconf:
   - { key: mysql_dbdir, val: "{{ bsd_mysql_datadir }}" }
   - { key: mysql_confdir, val: "{{ bsd_mysql_conf_path }}" }
@@ -149,7 +155,7 @@ bsd_mysql_patches_dict:
 # TODO
 # https://dev.mysql.com/doc/mysql-secure-deployment-guide/5.7/en/secure-deployment-permissions.html
 # https://dev.mysql.com/doc/mysql-secure-deployment-guide/8.0/en/secure-deployment-permissions.html
-bsd_mysql_directories_57: []
+bsd_mysql_directories_81: []
 bsd_mysql_directories_default: []
 #  - path: "{{ bsd_mysql_datadir }}"
 #    owner: "{{ bsd_mysql_mysql_user }}"
