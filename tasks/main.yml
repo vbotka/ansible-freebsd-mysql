@@ -63,8 +63,7 @@
   tags: [bsd_mysql_assert, never]
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#   [WARNING] Task secret.yml is not idempotent !
-#
+#   WARNING: Tasks secret.yml are not idempotent!
 # * Run this task '-t bsd_mysql_secret' only once to change temporary
 #   password for bsd_mysql_login_user (root).
 # * Run '-t bsd_mysql_assert' first to see the status of the passwords

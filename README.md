@@ -64,14 +64,13 @@ shell> ansible-galaxy collection install ansible.posix
 ```
 
 
-3) Fit variables
+3) Fit variables to your needs.
 
 
 4) Create playbook and inventory
 
 ```bash
 shell> cat mysql.yml
-
 - hosts: dbserver
   roles:
     - vbotka.freebsd_mysql
@@ -124,14 +123,14 @@ shell> ansible-playbook mysql.yml -t bsd_mysql_debug -e bsd_mysql_debug=true
 * Install packages
 
 ```bash
-shell> ansible-playbook mysql.yml -t bsd_mysql_packages
+shell> ansible-playbook mysql.yml -t bsd_mysql_packages -e bsd_mysql_install=true -e freebsd_flavors_enable=true
 ```
 
 * Apply patches
 
 Review patches in the *file* directory and fit the variable *bsd_mysql_patches* to your
 needs. Default v80 is secure initialization (--initialize) and output of *mysql_create_auth_tables*
-to console.
+to console. v80 works also for v81.
 
 ```bash
 shell>  ansible-playbook mysql.yml -t bsd_mysql_patches -e bsd_mysql_patch_backup=true
@@ -166,9 +165,15 @@ If the test fails find the HOWTO sections in the message.
 
 * Change root password
 
-Store temporary root password in the local file. Change the root password to
-*bsd_mysql_secret*. This task is tagged *never* and shall be run on demand only to change the
-temporary root password
+WARNING: Tasks secret.yml are not idempotent !
+
+Run the tasks '-t bsd_mysql_secret' only once to change temporary
+password for *bsd_mysql_login_user* (by default root). Run '-t
+bsd_mysql_assert' first to see the status of the passwords.
+
+Store temporary root password in the local file. Change the root
+password to *bsd_mysql_secret*. This task is tagged *never* and shall
+be run on demand only to change the temporary root password
 
 ```bash
 shell> ansible-playbook mysql.yml -t bsd_mysql_secret
@@ -192,8 +197,10 @@ shell> ansible-playbook mysql.yml
 shell> ansible-playbook mysql.yml
 ```
 
-To reconfigure any parameter it's sufficient to select particular tasks by tags when the server is
-running. The role should be idempotent. It's possible to repeatedly run the whole role if necessary.
+When the server is running it's sufficient to select particular tasks
+by tags to reconfigure any parameter. The role should be
+idempotent. It's possible to repeatedly run the whole role if
+necessary.
 
 
 ## Troubleshooting
