@@ -5,6 +5,28 @@ vbotka.freebsd_mysql 2.6 Release Notes
 .. contents:: Topics
 
 
+2.6.2
+=====
+
+Release Summary
+---------------
+Maintenance and bugfix update.
+
+Major Changes
+-------------
+* Update bsd_mysql_role_version
+
+Minor Changes
+-------------
+
+Bugfixes
+--------
+* Delete changelog/#CHANGELOG-v2.6.rst#
+
+Breaking Changes / Porting Guide
+--------------------------------
+
+
 2.6.1
 =====
 

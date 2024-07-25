@@ -1,6 +1,6 @@
 ---
 # defaults freebsd_mysql
-bsd_mysql_role_version: 2.6.1
+bsd_mysql_role_version: 2.6.2
 
 bsd_mysql_install: false
 bsd_mysql_enable: false
