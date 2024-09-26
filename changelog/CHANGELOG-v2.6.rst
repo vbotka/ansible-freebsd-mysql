@@ -3,29 +3,6 @@ vbotka.freebsd_mysql 2.6 Release Notes
 ======================================
 
 .. contents:: Topics
-# BEGIN Commits 2.6.2
-- Update python 3.11 in .travis.yml
-- Format meta/main.yml
-- Start 2.6.2 devel
-# END Commits 2.6.2
-# BEGIN Release notes 2.6.2
-2.6.2
-=====
-Release Summary
----------------
-Major Changes
--------------
-Minor Changes
--------------
-- Update python 3.11 in .travis.yml
-- Format meta/main.yml
-- Start 2.6.2 devel
-
-Bugfixes
---------
-Breaking Changes / Porting Guide
---------------------------------
-# END Release notes 2.6.2
 
 
 2.6.2
@@ -37,14 +14,16 @@ Maintenance and bugfix update.
 
 Major Changes
 -------------
-* Update bsd_mysql_role_version
+- Update bsd_mysql_role_version
 
 Minor Changes
 -------------
+- Update python 3.11 in .travis.yml
+- Format meta/main.yml
 
 Bugfixes
 --------
-* Delete changelog/#CHANGELOG-v2.6.rst#
+- Delete changelog/#CHANGELOG-v2.6.rst#
 
 Breaking Changes / Porting Guide
 --------------------------------
